@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎓 الموسوعة الختامية والاختبار الشامل - التدريب الميداني (2)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Fredoka+One&display=swap');
+
+  :root {
+    --purple: #7C3AED;
+    --pink: #EC4899;
+    --green: #10B981;
+    --yellow: #F59E0B;
+    --blue: #3B82F6;
+    --orange: #F97316;
+    --bg: #FFF8F0;
+    --card: #FFFFFF;
+    --text: #1E1B4B;
+    --correct: #10B981;
+    --wrong: #EF4444;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(124,58,237,0.08) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(236,72,153,0.08) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(59,130,246,0.05) 0%, transparent 60%);
+  }
+
+  /* FLOATING DECORATIONS */
+  .float-deco {
+    position: fixed;
+    font-size: 2rem;
+    opacity: 0.15;
+    pointer-events: none;
+    animation: floatAround 8s infinite ease-in-out;
+    z-index: 0;
+  }
+  .float-deco:nth-child(1) { top: 5%; left: 5%; animation-delay: 0s; }
+  .float-deco:nth-child(2) { top: 15%; right: 8%; animation-delay: 1s; }
+  .float-deco:nth-child(3) { top: 45%; left: 2%; animation-delay: 2s; }
+  .float-deco:nth-child(4) { bottom: 20%; right: 5%; animation-delay: 3s; }
+  .float-deco:nth-child(5) { bottom: 5%; left: 15%; animation-delay: 4s; }
+
+  @keyframes floatAround {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(10deg); }
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    padding: 2rem 1rem 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header h1 {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    background: linear-gradient(135deg, var(--purple), var(--pink), var(--blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+
+  .header p {
+    color: #6B7280;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .star-row {
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  /* CHAPTER SELECTION */
+  #chapterSelect {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem 1rem 3rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .select-title {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--purple);
+    margin-bottom: 1.5rem;
+  }
+
+  .chapters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .chapter-btn {
+    background: white;
+    border: none;
+    border-radius: 20px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    text-align: right;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .chapter-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: 20px;
+  }
+
+  .chapter-btn:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
+  .chapter-btn:hover::before { opacity: 1; }
+
+  .ch1::before { background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(167,139,250,0.08)); }
+  .ch2::before { background: linear-gradient(135deg, rgba(236,72,153,0.08), rgba(251,182,218,0.08)); }
+  .ch3::before { background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(110,231,183,0.08)); }
+  .ch4::before { background: linear-gradient(135deg, rgba(245,158,11,0.08), rgba(252,211,77,0.08)); }
+  .ch5::before { background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(147,197,253,0.08)); }
+
+  .ch1 { border-right: 5px solid var(--purple); }
+  .ch2 { border-right: 5px solid var(--pink); }
+  .ch3 { border-right: 5px solid var(--green); }
+  .ch4 { border-right: 5px solid var(--yellow); }
+  .ch5 { border-right: 5px solid var(--blue); }
+
+  .chapter-emoji { font-size: 2.5rem; margin-bottom: 0.5rem; display: block; }
+  .chapter-title { font-weight: 900; font-size: 1rem; color: var(--text); margin-bottom: 0.3rem; }
+  .chapter-subtitle { font-size: 0.8rem; color: #9CA3AF; line-height: 1.5; }
+  .chapter-count { font-size: 0.75rem; font-weight: 700; margin-top: 0.5rem; padding: 3px 10px; border-radius: 20px; display: inline-block; }
+
+  .ch1 .chapter-count { background: rgba(124,58,237,0.1); color: var(--purple); }
+  .ch2 .chapter-count { background: rgba(236,72,153,0.1); color: var(--pink); }
+  .ch3 .chapter-count { background: rgba(16,185,129,0.1); color: var(--green); }
+  .ch4 .chapter-count { background: rgba(245,158,11,0.1); color: var(--yellow); }
+  .ch5 .chapter-count { background: rgba(59,130,246,0.1); color: var(--blue); }
+
+  /* QUIZ AREA */
+  #quizArea {
+    display: none;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem 1rem 3rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .quiz-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    background: white;
+    border-radius: 16px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .back-btn {
+    background: none;
+    border: 2px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 700;
+    color: #6B7280;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+  }
+  .back-btn:hover { border-color: var(--purple); color: var(--purple); }
+
+  .quiz-chapter-title {
+    font-weight: 900;
+    font-size: 1rem;
+    color: var(--text);
+  }
+
+  .progress-info {
+    font-size: 0.85rem;
+    color: #9CA3AF;
+    font-weight: 700;
+  }
+
+  .progress-bar-wrap {
+    background: #F3F4F6;
+    border-radius: 99px;
+    height: 8px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--purple), var(--pink));
+    transition: width 0.5s ease;
+  }
+
+  .score-display {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    align-items: center;
+  }
+  .score-correct { color: var(--green); }
+  .score-wrong { color: var(--wrong); }
+
+  /* QUESTION CARD */
+  .question-card {
+    background: white;
+    border-radius: 24px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 1rem;
+    animation: slideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .q-type-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 99px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .badge-mcq { background: rgba(124,58,237,0.1); color: var(--purple); }
+  .badge-tf { background: rgba(16,185,129,0.1); color: var(--green); }
+
+  .difficulty-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    margin-right: 0.5rem;
+  }
+  .diff-easy { background: rgba(16,185,129,0.1); color: var(--green); }
+  .diff-medium { background: rgba(245,158,11,0.1); color: var(--yellow); }
+  .diff-hard { background: rgba(239,68,68,0.1); color: var(--wrong); }
+
+  .question-num {
+    font-size: 0.8rem;
+    color: #9CA3AF;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+
+  .question-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+  }
+
+  /* OPTIONS */
+  .options-grid {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .option-btn {
+    background: #F9FAFB;
+    border: 2px solid #E5E7EB;
+    border-radius: 14px;
+    padding: 1rem 1.2rem;
+    text-align: right;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .option-btn:not(.answered):hover {
+    border-color: var(--purple);
+    background: rgba(124,58,237,0.04);
+    transform: translateX(-3px);
+  }
+
+  .option-label {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #E5E7EB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .option-btn.correct {
+    background: rgba(16,185,129,0.08);
+    border-color: var(--correct);
+    color: #065F46;
+    animation: correctFlash 0.5s ease;
+  }
+  .option-btn.correct .option-label {
+    background: var(--correct);
+    border-color: var(--correct);
+    color: white;
+  }
+
+  .option-btn.wrong {
+    background: rgba(239,68,68,0.08);
+    border-color: var(--wrong);
+    color: #991B1B;
+    animation: wrongShake 0.5s ease;
+  }
+  .option-btn.wrong .option-label {
+    background: var(--wrong);
+    border-color: var(--wrong);
+    color: white;
+  }
+
+  .option-btn.answered { cursor: default; }
+
+  @keyframes correctFlash {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes wrongShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  /* TRUE/FALSE */
+  .tf-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .tf-btn {
+    background: #F9FAFB;
+    border: 3px solid #E5E7EB;
+    border-radius: 20px;
+    padding: 1.5rem;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: var(--text);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .tf-btn:not(.answered):hover {
+    transform: scale(1.05);
+  }
+
+  .tf-btn.true-btn:not(.answered):hover { border-color: var(--green); background: rgba(16,185,129,0.05); }
+  .tf-btn.false-btn:not(.answered):hover { border-color: var(--wrong); background: rgba(239,68,68,0.05); }
+
+  .tf-btn.correct { background: rgba(16,185,129,0.08); border-color: var(--correct); color: #065F46; }
+  .tf-btn.wrong { background: rgba(239,68,68,0.08); border-color: var(--wrong); color: #991B1B; }
+  .tf-btn.answered { cursor: default; }
+
+  /* JUSTIFICATION BOX */
+  .justification-box {
+    margin-top: 1rem;
+    border-radius: 16px;
+    padding: 1.2rem 1.5rem;
+    animation: fadeInJust 0.5s ease;
+    border-right: 4px solid;
+  }
+
+  .just-correct {
+    background: rgba(16,185,129,0.06);
+    border-color: var(--green);
+  }
+  .just-wrong {
+    background: rgba(239,68,68,0.06);
+    border-color: var(--wrong);
+  }
+
+  @keyframes fadeInJust {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .just-title {
+    font-weight: 900;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .just-correct .just-title { color: #065F46; }
+  .just-wrong .just-title { color: #991B1B; }
+
+  .just-text {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: #374151;
+  }
+
+  /* NEXT BUTTON */
+  .next-btn {
+    display: none;
+    width: 100%;
+    background: linear-gradient(135deg, var(--purple), var(--pink));
+    color: white;
+    border: none;
+    border-radius: 16px;
+    padding: 1rem;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 0.5rem;
+    box-shadow: 0 4px 15px rgba(124,58,237,0.3);
+  }
+  .next-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(124,58,237,0.4); }
+
+  /* RESULTS */
+  #resultsArea {
+    display: none;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .results-card {
+    background: white;
+    border-radius: 30px;
+    padding: 3rem 2rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .results-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--purple), var(--pink), var(--blue), var(--green));
+  }
+
+  .results-emoji { font-size: 4rem; margin-bottom: 1rem; animation: bounce 1s ease infinite alternate; }
+
+  @keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-10px); }
+  }
+
+  .results-title { font-weight: 900; font-size: 1.8rem; color: var(--text); margin-bottom: 0.5rem; }
+  .results-subtitle { color: #6B7280; margin-bottom: 2rem; font-size: 1rem; }
+
+  .results-score {
+    font-size: 4rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--purple), var(--pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .results-detail {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 1.5rem 0;
+  }
+
+  .result-stat { text-align: center; }
+  .result-stat .num { font-size: 1.5rem; font-weight: 900; }
+  .result-stat .label { font-size: 0.75rem; color: #9CA3AF; font-weight: 700; }
+  .stat-correct .num { color: var(--green); }
+  .stat-wrong .num { color: var(--wrong); }
+
+  .result-message {
+    background: linear-gradient(135deg, rgba(124,58,237,0.06), rgba(236,72,153,0.06));
+    border-radius: 16px;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--purple);
+    margin: 1.5rem 0;
+    line-height: 1.7;
+  }
+
+  .retry-btn {
+    background: linear-gradient(135deg, var(--purple), var(--pink));
+    color: white;
+    border: none;
+    border-radius: 16px;
+    padding: 1rem 2rem;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1rem;
+    font-weight: 900;
+    cursor: pointer;
+    margin: 0.5rem;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(124,58,237,0.3);
+  }
+  .retry-btn:hover { transform: translateY(-2px); }
+
+  .home-btn {
+    background: white;
+    color: var(--purple);
+    border: 2px solid var(--purple);
+    border-radius: 16px;
+    padding: 1rem 2rem;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1rem;
+    font-weight: 900;
+    cursor: pointer;
+    margin: 0.5rem;
+    transition: all 0.3s;
+  }
+  .home-btn:hover { background: var(--purple); color: white; }
+
+  /* CONFETTI / BALLOONS */
+  .balloon-container {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+  }
+
+  .balloon {
+    position: absolute;
+    bottom: -100px;
+    font-size: 2.5rem;
+    animation: riseUp linear forwards;
+  }
+
+  @keyframes riseUp {
+    0% { bottom: -100px; opacity: 1; }
+    80% { opacity: 1; }
+    100% { bottom: 110%; opacity: 0; }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 500px) {
+    .tf-grid { grid-template-columns: 1fr; }
+    .quiz-header { flex-direction: column; align-items: flex-start; }
+    .question-text { font-size: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating Decorations -->
+<div class="float-deco">🌟</div>
+<div class="float-deco">🎈</div>
+<div class="float-deco">🎁</div>
+<div class="float-deco">⭐</div>
+<div class="float-deco">🌺</div>
+
+<!-- BALLOON CONTAINER -->
+<div class="balloon-container" id="balloonContainer"></div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="star-row">⭐ 🎈 ⭐ 🎁 ⭐ 🎈 ⭐</div>
+  <h1>🎓 الموسوعة الختامية والاختبار الشامل الجبار</h1>
+  <p>التدريب الميداني (2) في التربية الخاصة — د. سماح مرزوق</p>
+  <div class="star-row">✨ 200 سؤال كامل · خمسة فصول ✨</div>
+</div>
+
+<!-- CHAPTER SELECTION -->
+<div id="chapterSelect">
+  <p class="select-title">🎯 اختاري الفصل الذي تريدين اختبار نفسك فيه</p>
+  <div class="chapters-grid">
+    <button class="chapter-btn ch1" onclick="startQuiz(0)">
+      <span class="chapter-emoji">📚</span>
+      <div class="chapter-title">الفصل الأول: التربية الخاصة</div>
+      <div class="chapter-subtitle">مفاهيم المنهج، الفروق بين الضعف والعجز والإعاقة، نسب الذكاء، التوحد، كف البصر، مهارات المعلم التشخيصية</div>
+      <span class="chapter-count">40 سؤالاً 🔥</span>
+    </button>
+    <button class="chapter-btn ch2" onclick="startQuiz(1)">
+      <span class="chapter-emoji">🎯</span>
+      <div class="chapter-title">الفصل الثاني: الأهداف التعليمية</div>
+      <div class="chapter-subtitle">معادلة صياغة الهدف السلوكي الإجرائي، شروط الهدف، تصنيف بلوم، المجالات الثلاثة</div>
+      <span class="chapter-count">40 سؤالاً 🔥</span>
+    </button>
+    <button class="chapter-btn ch3" onclick="startQuiz(2)">
+      <span class="chapter-emoji">🏫</span>
+      <div class="chapter-title">الفصل الثالث: بيئة التعليم والتعلم</div>
+      <div class="chapter-subtitle">إدارة البيئة الصفية، أركان النشاط البديلة، تعديل السلوك، التعزيز وأنواعه</div>
+      <span class="chapter-count">40 سؤالاً 🔥</span>
+    </button>
+    <button class="chapter-btn ch4" onclick="startQuiz(3)">
+      <span class="chapter-emoji">🎨</span>
+      <div class="chapter-title">الفصل الرابع: الأنشطة التعليمية</div>
+      <div class="chapter-subtitle">مفهوم الأنشطة التعليمية لذوي الاحتياجات الخاصة، تصنيفاتها، أهميتها، معايير اختيارها</div>
+      <span class="chapter-count">40 سؤالاً 🔥</span>
+    </button>
+    <button class="chapter-btn ch5" onclick="startQuiz(4)">
+      <span class="chapter-emoji">📊</span>
+      <div class="chapter-title">الفصل الخامس: التقويم</div>
+      <div class="chapter-subtitle">التقويم لغةً واصطلاحاً، الفروق بين القياس والتقييم والتقويم، التكويني مقابل النهائي، البورتفوليو، التواصل مع الأسر</div>
+      <span class="chapter-count">40 سؤالاً 🔥</span>
+    </button>
+  </div>
+</div>
+
+<!-- QUIZ AREA -->
+<div id="quizArea">
+  <div class="quiz-header">
+    <button class="back-btn" onclick="goHome()">⬅ العودة</button>
+    <div class="quiz-chapter-title" id="quizChapterTitle"></div>
+    <div>
+      <div class="progress-info" id="progressInfo"></div>
+      <div class="score-display">
+        <span class="score-correct" id="scoreCorrect">✅ 0</span>
+        <span class="score-wrong" id="scoreWrong">❌ 0</span>
+      </div>
+    </div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+  </div>
+  <div id="questionContainer"></div>
+  <button class="next-btn" id="nextBtn" onclick="nextQuestion()">السؤال التالي ⟵</button>
+</div>
+
+<!-- RESULTS AREA -->
+<div id="resultsArea">
+  <div class="results-card">
+    <div class="results-emoji" id="resultsEmoji">🎉</div>
+    <div class="results-title" id="resultsTitle">أحسنتِ!</div>
+    <div class="results-subtitle" id="resultsSubtitle"></div>
+    <div class="results-score" id="resultsScore"></div>
+    <div class="results-detail">
+      <div class="result-stat stat-correct">
+        <div class="num" id="finalCorrect">0</div>
+        <div class="label">إجابات صحيحة ✅</div>
+      </div>
+      <div class="result-stat stat-wrong">
+        <div class="num" id="finalWrong">0</div>
+        <div class="label">إجابات خاطئة ❌</div>
+      </div>
+    </div>
+    <div class="result-message" id="resultMessage"></div>
+    <div>
+      <button class="retry-btn" id="retryBtn">🔁 إعادة الاختبار</button>
+      <button class="home-btn" onclick="goHome()">🏠 الصفحة الرئيسية</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// =====================================================================
+// COMPLETE QUESTION BANK — 200 Questions across 5 chapters
+// Each chapter: 20 MCQ + 20 T/F
+// =====================================================================
+
+const CHAPTERS = [
+  {
+    name: "الفصل الأول: التربية الخاصة",
+    color: "#7C3AED",
+    emoji: "📚",
+    questions: [
+      // ---- MCQ (1-20) ----
+      {type:"mcq", difficulty:"easy", text:"ما تعريف التربية الخاصة وفق الكتاب؟", options:["نمط من الخدمات والبرامج التربوية تتضمن تعديلات خاصة في المناهج أو الوسائل أو طرق التعليم","مجموعة من الدروس الخاصة للمتفوقين فقط","برامج خاصة بالمعاقين جسدياً فقط","طرق تدريس موحدة لجميع الفئات"], correct:0, justification:"تُعرّف التربية الخاصة بأنها نمط من الخدمات والبرامج التربوية تتضمن تعديلات خاصة في المناهج أو الوسائل أو طرق التعليم استجابةً للحاجات الخاصة لمجموع الأطفال الذين لا يستطيعون مسايرة متطلبات برامج التربية العادية."},
+      {type:"mcq", difficulty:"easy", text:"ما الحد الأقصى لنسبة الذكاء الذي يُعدّ الفرد عنده مصاباً بالإعاقة العقلية وفق الكتاب؟", options:["90 درجة","85 درجة","75 درجة فما دون","70 درجة"], correct:2, justification:"الإعاقة العقلية تتصف بأداء عقلي دون المتوسط بشكل واضح (75 درجة ذكاء فما دون) مع جوانب قصور في مجالين أو أكثر من مجالات المهارات التكيفية."},
+      {type:"mcq", difficulty:"easy", text:"ما السن الذي يجب أن تظهر فيه أعراض التوحد لتشخيص الطفل بالتوحد؟", options:["قبل سن 48 شهراً","قبل سن 36 شهراً","قبل سن 24 شهراً","قبل سن 60 شهراً"], correct:1, justification:"يُعرّف الطفل التوحدي على أنه الطفل الذي تظهر لديه المظاهر الأساسية قبل سن 36 شهراً."},
+      {type:"mcq", difficulty:"easy", text:"ما تعريف الكفيف وفق حدة الإبصار المذكورة في الكتاب؟", options:["من تقل حدة إبصاره عن 6/30","من تقل حدة إبصاره عن 6/60 بأقوى العينين بعد التصحيح","من لا يرى أي شيء تماماً","من يحتاج نظارات طبية"], correct:1, justification:"الكفيف هو الشخص الذي تقل حدة إبصاره بأقوى العينين بعد التصحيح عن 6/60 متراً (20/200 قدم) أو يقل مجاله البصري عن زاوية مقدارها 20 درجة."},
+      {type:"mcq", difficulty:"medium", text:"يشمل مفهوم التربية الخاصة في مكوناتها أيّ العناصر التالية؟", options:["المقررات الدراسية فقط","الكتب والوسائل التعليمية والأنشطة وأساليب التقويم وأساليب التدريس","طرق التدريس وحدها","الاختبارات والامتحانات فقط"], correct:1, justification:"التربية الخاصة تهتم بمكونات المنهج التربوي بمفهومه الشامل، الذي يتضمن المقررات الدراسية والكتب والمراجع والوسائل التعليمية والأنشطة المدرسية وأساليب التقويم وأساليب التدريس."},
+      {type:"mcq", difficulty:"medium", text:"ما الفرق الجوهري بين مصطلح 'الضعف' ومصطلح 'العجز'؟", options:["الضعف يشير إلى مشكلة في التعلم، والعجز يشير إلى محدودية الوظيفة الحسية","الضعف يشير إلى محدودية الوظيفة وبخاصة الحالات الحسية، والعجز يشير إلى تشوه جسدي أو مشكلة خطيرة في التعلم ناتجة عن الضعف","هما مترادفان تماماً","الضعف للسمع فقط والعجز للبصر فقط"], correct:1, justification:"الضعف (Impairment) يشير إلى محدودية الوظيفة كالضعف السمعي أو البصري. أما العجز (Disability) فيشير إلى تشوه جسدي أو مشكلة خطيرة في التعلم أو التكيف الاجتماعي نتيجة وجود الضعف."},
+      {type:"mcq", difficulty:"medium", text:"أي من التالي يُعدّ من أهداف التربية الخاصة وفق الكتاب؟", options:["فصل الأطفال المعاقين عن العاديين نهائياً","تحقيق استقلالية الفرد وتمكينه من تلبية حاجاته بمفرده","تعليم المقررات الدراسية النظرية فقط","الاهتمام بالموهوبين فحسب"], correct:1, justification:"الاستقلالية من الأهداف الرئيسية التي تسعى لها التربية الخاصة، وتعني الوضعية التي يصل إليها الفرد والتي تجعله قادراً على تلبية حاجاته ورغباته بمفرده مع الاستغناء عن المساعدة الاجتماعية."},
+      {type:"mcq", difficulty:"medium", text:"ما المصطلح الأوسع الذي يشمل الذين ينخفض أداؤهم والذين يكون أداؤهم أحسن من الآخرين (الموهوبين والمتفوقين)؟", options:["الإعاقة","العجز","الحالات الخاصة (Exceptionalities)","الضعف"], correct:2, justification:"مصطلح الحالات الخاصة (Exceptionalities) هو أوسع من المصطلحات السابقة إذ لا يقتصر على الذين ينخفض أداؤهم وإنما يشتمل على الذين يكون أداؤهم أحسن كالموهوبين والمتفوقين."},
+      {type:"mcq", difficulty:"hard", text:"وفق تعريف صعوبات التعلم في الكتاب، أي الشروط التالية يُميّز صعوبات التعلم عن الإعاقة العقلية؟", options:["انخفاض نسبة الذكاء عن 75","أن صعوبات التعلم لا تعود إلى أسباب تتعلق بالإعاقة العقلية أو السمعية أو البصرية","أن الطفل يعاني من مشكلة سمعية واضحة","أن الطفل لا يستطيع التحدث نهائياً"], correct:1, justification:"صعوبات التعلم هي اضطرابات في العمليات النفسية الأساسية التي لا تعود إلى أسباب تتعلق بالإعاقة العقلية أو السمعية أو البصرية أو غيرها من الإعاقات، وهذا هو الفارق الجوهري."},
+      {type:"mcq", difficulty:"hard", text:"ما العلاقة بين برامج الوقاية من الإعاقة وبرامج الرعاية والتأهيل من حيث الأهمية النسبية؟", options:["برامج الرعاية والتأهيل أهم","برامج الوقاية أقل أهمية لأنها مكلفة","برامج الوقاية تمثل إجراءً مبكراً يقلل من وقوع الإعاقة ويختصر الجهود المعنوية والمادية اللازمة للرعاية","كلاهما بنفس الأهمية تماماً"], correct:2, justification:"برامج الوقاية من الإعاقة تمثل إجراءً مبكراً يقلل إلى حد كبير من وقوع الإعاقة ويختصر الكثير من الجهود المعنوية والمادية اللازمة لبرامج الرعاية والتأهيل."},
+      {type:"mcq", difficulty:"hard", text:"ما المهارة التشخيصية المتعلقة بـ'تحليل ما يسمعه المعلم من الطفل أو المحيطين به'؟", options:["النظرة التشخيصية","الأسئلة التشخيصية","الاستماع التشخيصي","التقييم التشخيصي"], correct:2, justification:"الاستماع التشخيصي هو قدرة المعلم على تحليل ما يسمع من الطفل أو المحيطين به، وهو أحد المهارات التشخيصية الثلاث للمعلم."},
+      {type:"mcq", difficulty:"hard", text:"تختلف مراعاة الفروق الفردية للمعاقين بصرياً في البرامج الدراسية عن غيرهم بـ:", options:["تقديم نفس البرنامج لجميع المعاقين بصرياً","إعداد برنامج تربوي خاص لكل معاق يتناسب مع قدراته ومستوى ذكائه وخبراته الاجتماعية والدراسية","تقليص البرنامج الدراسي لجميعهم","تجاهل الفروق لأن الإعاقة موحّدة"], correct:1, justification:"مراعاة الفروق الفردية بين المعاقين بصرياً في البرامج الدراسية تعني إعداد برنامج تربوي خاص لكل معاق يتناسب مع قدراته ومستوى ذكائه وخبراته الاجتماعية والدراسية."},
+      {type:"mcq", difficulty:"easy", text:"أي الخصائص التالية من الخصائص الأخلاقية لمعلم التربية الخاصة؟", options:["الإلمام بالمقاييس النفسية","عدم إفشاء أسرار الطلاب","استخدام الوسائل السمعية والبصرية","تقسيم أوقات التعلم"], correct:1, justification:"من الخصائص الأخلاقية لمعلم التربية الخاصة: عدم إفشاء أسرار الطلاب، والقيام بواجباته بإخلاص وأمانة، والدقة في العمل والصدق."},
+      {type:"mcq", difficulty:"easy", text:"ما الهدف الرئيسي للاندماج الاجتماعي كأحد أهداف التربية الخاصة؟", options:["فصل الشخص المعوق عن المجتمع","الوصول بالشخص المعوق للمشاركة في الحياة الاجتماعية والتكيف معها بكل متطلباتها","تقديم الدعم المالي للأسر","تعليم المقررات الدراسية فقط"], correct:1, justification:"الاندماج الاجتماعي هو الوصول بالشخص المعوق للمشاركة في الحياة الاجتماعية والتكيف معها بكل متطلباتها وبالتالي تحقيق إنسانيته الاجتماعية."},
+      {type:"mcq", difficulty:"medium", text:"أي مما يلي يُعدّ من الخصائص الأكاديمية لمعلم التربية الخاصة؟", options:["الصدق والأمانة","عدم التمييز بين الطلاب","القدرة على تفسير نتائج الاختبار وتحليل سلوك المفحوص","التعامل مع أولياء الأمور بأمانة"], correct:2, justification:"من الخصائص والمواصفات الأكاديمية: أن يكون لديه القدرة على تفسير نتائج الاختبار وتحليل السلوك الصادر عن المفحوص ومعرفة هل هو ناتج عن ظروف بيئية أو إعاقة."},
+      {type:"mcq", difficulty:"medium", text:"اضطراب ملحوظ في النطق أو الصوت أو الطلاقة الكلامية هو تعريف لـ:", options:["صعوبات التعلم","الإعاقة الانفعالية","اضطرابات النطق أو اللغة","الإعاقة السمعية"], correct:2, justification:"اضطرابات النطق أو اللغة هي اضطراب ملحوظ في النطق أو الصوت أو الطلاقة الكلامية أو تأخر لغوي أو عدم تطور اللغة التعبيرية أو الاستيعابية."},
+      {type:"mcq", difficulty:"hard", text:"ما الفرق بين مصطلح 'الإعاقة' ومصطلح 'العجز'؟", options:["كلاهما يشير إلى مشكلة حسية فقط","الإعاقة تُستخدم للإشارة إلى المشكلات في التعلم أو السلوك الاجتماعي، والعجز يشير إلى الصعوبات الجسمية","الإعاقة للجسمانيين والعجز للعقليين","لا فرق بينهما"], correct:1, justification:"الإعاقة (Handicap) تُستخدم للإشارة إلى المشكلات في التعلم أو السلوك الاجتماعي، أما العجز (Disability) فيُستخدم للإشارة إلى الصعوبات الجسمية."},
+      {type:"mcq", difficulty:"hard", text:"ما الإجراء الذي يجب اتخاذه قبل دمج الطفل ذي الاحتياجات الخاصة في الفصل العادي؟", options:["لا يحتاج أي إجراء","التنسيق بين معلم التربية الخاصة ومعلم الفصل","موافقة ولي الأمر فقط","تقييم الطفل من طبيب"], correct:1, justification:"يجب التنسيق بين معلم التربية الخاصة ومعلم الفصل قبل دمج الطفل في هذه الفصول لضمان ملاءمة البيئة الصفية لاحتياجاته."},
+      {type:"mcq", difficulty:"hard", text:"يستخدم معلم التربية الخاصة أسلوب التعليم بالتقليد والنمذجة لأن:", options:["النمذجة أسهل من التدريس المباشر","هذه الفئة تحتاج إلى مثيرات بصرية تساعدهم على التعلم المجرد","التقليد لا يتطلب تحضيراً مسبقاً","النمذجة تلغي الحاجة للمعلم"], correct:1, justification:"يستخدم معلم التربية الخاصة أساليب تعتمد على مختلف الحواس والتعليم بالتقليد والنمذجة والألعاب التعليمية لأن هذه الفئة تحتاج إلى وسائل ملموسة تساعدهم على الإدراك الصحيح."},
+      {type:"mcq", difficulty:"easy", text:"ما مجموع فئات التربية الخاصة المذكورة في الكتاب؟", options:["5 فئات","7 فئات","9 فئات","11 فئة"], correct:2, justification:"يشتمل متعلمو التربية الخاصة على 9 فئات رئيسة: الموهبة والتفوق، الإعاقة العقلية، السمعية، البصرية، الحركية، الانفعالية، التوحد، صعوبات التعلم، اضطرابات النطق أو اللغة."},
+      // ---- T/F (21-40) ----
+      {type:"tf", difficulty:"easy", text:"تُستخدم كلمة 'الإعاقة' للإشارة إلى محدودية الوظيفة الحسية كالضعف السمعي أو البصري.", correct:false, justification:"هذا التعريف ينطبق على مصطلح 'الضعف' (Impairment) وليس 'الإعاقة'. الإعاقة تُستخدم للإشارة إلى المشكلات في التعلم أو السلوك الاجتماعي."},
+      {type:"tf", difficulty:"easy", text:"الطفل التوحدي يُشخّص بناءً على أعراض تظهر قبل سن 36 شهراً.", correct:true, justification:"وفق تعريف التوحد في الكتاب، يُعرّف الطفل التوحدي على أنه الطفل الذي تظهر لديه المظاهر الأساسية قبل سن 36 شهراً."},
+      {type:"tf", difficulty:"easy", text:"الإعاقة العقلية تتطلب فقط وجود نسبة ذكاء منخفضة دون اشتراط أي قصور في المهارات التكيفية.", correct:false, justification:"الإعاقة العقلية تتصف بأداء عقلي دون المتوسط (75 فما دون) مع جوانب قصور في مجالين أو أكثر من مجالات المهارات التكيفية. يجب توافر الشرطين معاً."},
+      {type:"tf", difficulty:"easy", text:"الكفيف هو الشخص الذي تقل حدة إبصاره عن 6/60 بأقوى العينين بعد التصحيح.", correct:true, justification:"هذا هو التعريف الدقيق للكفيف وفق الكتاب: حدة الإبصار أقل من 6/60 بأقوى العينين بعد التصحيح أو مجال بصري أقل من 20 درجة."},
+      {type:"tf", difficulty:"medium", text:"التربية الخاصة تختص فقط بالأطفال المعاقين وتستثني الموهوبين والمتفوقين.", correct:false, justification:"التربية الخاصة تشمل أيضاً المتعلمين ذوي القدرات والمواهب المتميزة، فهي تُقدّم لجميع فئات الطلاب الذين يواجهون صعوبات تؤثر على قدرتهم على التعلم."},
+      {type:"tf", difficulty:"medium", text:"من أهداف التربية الخاصة إعداد برامج الوقاية من الإعاقة.", correct:true, justification:"إعداد برامج الوقاية من الإعاقة بشكل عام، والعمل ما أمكن على تقليل حدوث الإعاقة هو من الأهداف الصريحة للتربية الخاصة."},
+      {type:"tf", difficulty:"medium", text:"مصطلح 'الحالات الخاصة' (Exceptionalities) أضيق نطاقاً من مصطلح 'الإعاقة'.", correct:false, justification:"مصطلح الحالات الخاصة أوسع من المصطلحات السابقة إذ يشتمل على الذين ينخفض أداؤهم والذين يكون أداؤهم أحسن من الآخرين (الموهوبين والمتفوقين)."},
+      {type:"tf", difficulty:"medium", text:"يُعتبر استخدام التسجيل الصوتي وأجهزة عرض المواد المعتمة من الوسائل المناسبة للمعاقين سمعياً.", correct:false, justification:"الاستماع التشخيصي والتسجيل الصوتي وسائل للمعاقين بصرياً، أما المعاقون سمعياً فيحتاجون إلى الوسائل المرئية والحسية."},
+      {type:"tf", difficulty:"hard", text:"الهدف من مراعاة الفروق الفردية في التربية الخاصة هو توجيه المتعلمين ومساعدتهم على النمو وفق قدراتهم واستعداداتهم وميولهم.", correct:true, justification:"مراعاة الفروق الفردية بين الأطفال تهدف إلى توجيههم ومساعدتهم على النمو وفق قدراتهم واستعداداتهم وميولهم."},
+      {type:"tf", difficulty:"hard", text:"غرفة المصادر (Resource Room) تُعدّ حصرياً للأطفال المعاقين عقلياً فقط.", correct:false, justification:"غرفة المصادر تُعدّ لأطفال تتفاوت إعاقاتهم ويشتركون في أن لديهم حاجات لا يمكن تلبيتها أثناء وجودهم في الفصل العادي، وليست مخصصة للمعاقين عقلياً فحسب."},
+      {type:"tf", difficulty:"hard", text:"الطفل المضطرب انفعالياً هو الطفل الذي يظهر سلوكاً مؤذياً وضاراً بحيث يؤثر على تحصيله الأكاديمي أو على تحصيل أقرانه.", correct:true, justification:"هذا هو تعريف الإعاقة الانفعالية وفق الكتاب: الطفل المضطرب هو ذلك الطفل الذي يظهر سلوكاً مؤذياً وضاراً بحيث يؤثر على تحصيله الأكاديمي أو على تحصيل أقرانه."},
+      {type:"tf", difficulty:"easy", text:"صعوبات التعلم قد تعود إلى الإعاقة السمعية وفق تعريف الكتاب.", correct:false, justification:"صعوبات التعلم وفق الكتاب هي اضطرابات لا تعود إلى أسباب تتعلق بالإعاقة العقلية أو السمعية أو البصرية أو غيرها من الإعاقات."},
+      {type:"tf", difficulty:"medium", text:"يجب أن يكون معلم التربية الخاصة قادراً على اتخاذ الاحتياطات اللازمة لحالات الصرع والتشنجات أثناء التدريس.", correct:true, justification:"من الخصائص الأكاديمية لمعلم التربية الخاصة أن يكون قادراً على اتخاذ الاحتياطات اللازمة تحسباً لحدوث حالات الصرع والتشنجات أثناء عملية التدريس."},
+      {type:"tf", difficulty:"medium", text:"التكرار في التعليم مفيد للمعاقين ذهنياً ولكنه غير مفيد للأسوياء.", correct:true, justification:"ينص الكتاب صراحةً على أن معلم التربية الخاصة يعتمد على التكرار زيادةً على الحد اللازم للتعلم إذ أنه مفيد للمعاقين ذهنياً وغير مفيد للأسوياء."},
+      {type:"tf", difficulty:"hard", text:"الطفل ذو الإعاقة الحركية لا يحتاج إلى خدمات متخصصة لأن إعاقته جسدية فقط.", correct:false, justification:"الأطفال ذوو الإعاقة الحركية هم من يتشكل لديهم عائق يحرمهم من القدرة على القيام بوظائفهم الجسمية والحركية بشكل عادي مما يستدعي توفير خدمات متخصصة تمكنهم من التعلم."},
+      {type:"tf", difficulty:"hard", text:"التواصل هو أحد الأهداف العامة للتربية الخاصة ويعني التحكم في عملية التواصل سواء بشكلها اللفظي أو الرمزي.", correct:true, justification:"التواصل من الأهداف العامة للتربية الخاصة وتعمل على الوصول إلى التحكم في عملية التواصل سواء بشكلها اللفظي أو الرمزي."},
+      {type:"tf", difficulty:"easy", text:"ضعيف السمع هو من يعاني من عجز سمعي تام يعيقه عن أي معالجة لغوية.", correct:false, justification:"الأصم هو من يعاني من عجز سمعي يعيقه عن المعالجة الناجحة للمعلومات اللغوية. أما ضعيف السمع فهو من يوجد لديه بقايا سمعية يستطيع معها معالجة المعلومات اللغوية باستخدام السماعة."},
+      {type:"tf", difficulty:"medium", text:"معلم التربية الخاصة يجب أن يستخدم التعزيز غير السمعي وإظهار الحركات والانفعالات بشكل مرئي عند التعامل مع المعاقين سمعياً.", correct:true, justification:"من خصائص معلم التربية الخاصة: استخدام التعزيز غير السمعي وإظهار الحركات والانفعالات بشكل مرئي لا صوتي عند التعامل مع ذوي الإعاقة السمعية."},
+      {type:"tf", difficulty:"hard", text:"الاستقلالية كهدف للتربية الخاصة تعني الاعتماد الكلي على الآخرين في تلبية الحاجات.", correct:false, justification:"الاستقلالية تعني الوضعية التي يصل إليها الفرد والتي تجعله قادراً على تلبية حاجاته ورغباته بمفرده مع الاستغناء عن المساعدة الاجتماعية — عكس الاعتماد على الآخرين."},
+      {type:"tf", difficulty:"hard", text:"الموهوب والمتفوق هو الذي لديه قدرة بارزة ومتميزة في مجال أو أكثر من مجالات الذكاء أو التفكير الإبداعي أو التحصيل الدراسي.", correct:true, justification:"هذا هو التعريف الدقيق للموهوب والمتفوق وفق الكتاب."}
+    ]
+  },
+  {
+    name: "الفصل الثاني: الأهداف التعليمية",
+    color: "#EC4899",
+    emoji: "🎯",
+    questions: [
+      // MCQ
+      {type:"mcq", difficulty:"easy", text:"ما صيغة معادلة الهدف السلوكي الإجرائي الصحيحة وفق الكتاب؟", options:["الفعل + المحتوى + الوقت","أن + فعل سلوكي + المتعلم + المعلومة أو الخبرة + معيار (مستوى الأداء المطلوب)","الطالب + الهدف + المعيار","المعلم + الفعل + الطالب"], correct:1, justification:"تُصاغ الأهداف السلوكية وفقاً للمعادلة التالية: أن + فعل سلوكي + المتعلم (الفرد) + المعلومة أو الخبرة + معيار (مستوى الأداء المطلوب)."},
+      {type:"mcq", difficulty:"easy", text:"أيٌّ من الأفعال التالية يُعدّ فعلاً سلوكياً قابلاً للقياس والتقويم؟", options:["يدرك","يعتقد","يذكر","ينوي"], correct:2, justification:"الفعل السلوكي يجب أن يظهر في سلوك المتعلم فيمكن الحكم على مدى تحققه. 'يذكر' فعل قابل للملاحظة، أما 'يدرك' و'يعتقد' و'ينوي' فأفعال غير سلوكية يصعب قياسها."},
+      {type:"mcq", difficulty:"easy", text:"ما المستوى الأدنى في تصنيف بلوم للمجال المعرفي؟", options:["الفهم","التطبيق","المعرفة (التذكر)","التحليل"], correct:2, justification:"المعرفة (التذكر) هي أدنى مستويات المجال المعرفي في تصنيف بلوم، وتمثل أدنى المخرجات التعليمية."},
+      {type:"mcq", difficulty:"easy", text:"أيٌّ من التالي يُعدّ من أهداف المجال الوجداني؟", options:["يحل مسألة رياضية","يذكر القواعد النحوية","يُقدّر أهمية العمل التعاوني ويُبدي الرغبة في تحسين مهاراته","يطبق قانون فيزيائياً"], correct:2, justification:"المجال الوجداني يشمل الأهداف المرتبطة بجوانب النمو العاطفية كالميول والاتجاهات والقيم والتقدير. إقدار قيمة العمل التعاوني هدف وجداني."},
+      {type:"mcq", difficulty:"medium", text:"ما المستوى الخامس في تصنيف كراثول لأهداف المجال الوجداني؟", options:["الاستقبال","الاستجابة","التنظيم القيمي","التمييز بنظام قيمي مركب (Characterization)"], correct:3, justification:"المستوى الخامس والأعلى في تصنيف كراثول هو التمييز بنظام قيمي مركب (Characterization) حيث يتكون لدى الفرد نظام قيمي يضبط سلوكه لفترة طويلة."},
+      {type:"mcq", difficulty:"medium", text:"ما الفرق بين الأهداف قريبة المدى والأهداف بعيدة المدى؟", options:["قريبة المدى أكثر أهمية","قريبة المدى لا تحتاج وقتاً طويلاً (كالمعرفة والفهم)، وبعيدة المدى تستغرق وقتاً طويلاً (كالقيم والاتجاهات)","قريبة المدى تتعلق بالمجال الحسحركي فقط","لا فرق بينهما"], correct:1, justification:"الأهداف قريبة المدى لا تحتاج وقتاً طويلاً لتحقيقها كالمعرفة والفهم، أما بعيدة المدى فتستغرق وقتاً طويلاً كتنمية الاتجاهات والقيم."},
+      {type:"mcq", difficulty:"medium", text:"مستوى 'التطبيق' في تصنيف بلوم يعني:", options:["تذكر المعلومات كما تعلمها","القدرة على استخدام معلومات مجردة في حل مشكلة أو التعامل مع موقف جديد","إصدار حكم على موضوع ما","تجميع الأجزاء لتكوين كل متكامل"], correct:1, justification:"التطبيق يعني قدرة الفرد على استخدام معلومات مجردة في حل مشكلة أو التعامل مع موقف جديد عليه."},
+      {type:"mcq", difficulty:"medium", text:"ما المستوى الثالث في تصنيف كراثول لأهداف المجال الوجداني؟", options:["الاستقبال","الاستجابة","التقييم (إعطاء القيمة)","التنظيم القيمي"], correct:2, justification:"المستوى الثالث في تصنيف كراثول هو التقييم (إعطاء القيمة - Valuing) الذي يشير إلى القيمة التي يعطيها المتعلم لشيء معين أو ظاهرة معينة."},
+      {type:"mcq", difficulty:"hard", text:"لماذا يجب على المعلمة عدم استخدام الأفعال غير السلوكية مثل 'يدرك' و'يعتقد' في صياغة الأهداف؟", options:["لأنها أفعال معقدة جداً","لأنها لا تظهر مباشرة في سلوك المتعلم فيصعب قياسها والحكم عليها","لأنها مستخدمة في مواد أخرى","لأن بلوم لا يوافق عليها"], correct:1, justification:"يجب عدم استخدام الأفعال غير السلوكية لأنها لا تظهر مباشرة في سلوك المتعلم، فيصعب قياسها والحكم عليها."},
+      {type:"mcq", difficulty:"hard", text:"الفرق بين الأهداف التربوية والأهداف التعليمية هو:", options:["لا فرق بينهما","الأهداف التربوية غايات ومقاصد لمؤسسة أو برنامج، والأهداف التعليمية هي التغيرات الإيجابية المرغوب إحداثها في سلوك المتعلمين نتيجة خبرات تعليمية محددة","الأهداف التربوية أصغر من التعليمية","الأهداف التعليمية أشمل من التربوية"], correct:1, justification:"الأهداف التربوية هي غايات ومقاصد ونتائج مرغوبة لأية مؤسسة أو برنامج تربوي. أما الأهداف التعليمية فهي التغيرات الإيجابية المرغوب إحداثها في سلوك المتعلمين نتيجة مرورهم بخبرات تعليمية محددة."},
+      {type:"mcq", difficulty:"hard", text:"أيٌّ من الشروط التالية يجب أن تتحقق في الأهداف التعليمية تحت بند 'الصدق'؟", options:["أن تكون مناسبة لعمر المتعلم","أن تعكس أبعاد المواقف التعليمية وتكون ذات قيمة تربوية وتدعم الهوية الثقافية","أن تكون قابلة للقياس فقط","أن تكون شاملة لجميع المجالات"], correct:1, justification:"الأهداف التعليمية الصادقة يجب أن تعكس أبعاد المواقف التعليمية التي تمثلها، وتكون ذات قيمة وأهمية تربوية لحاضر المتعلم ومستقبله، وتدعم الهوية الثقافية الوطنية والعربية."},
+      {type:"mcq", difficulty:"easy", text:"ما المستوى الأعلى في تصنيف بلوم للمجال المعرفي وفق الكتاب؟", options:["التطبيق","التحليل","التركيب","التقويم"], correct:3, justification:"التقويم هو أعلى مستويات المجال المعرفي في تصنيف بلوم ويعني القدرة على إصدار حكم على موضوع ما."},
+      {type:"mcq", difficulty:"easy", text:"المجال النفس حركي (المهاري) يتضمن أهدافاً تتعلق بـ:", options:["الاتجاهات والقيم","المعرفة والاسترجاع","التآزر الحسي والحركي وتعلم المهارات العلمية واليدوية","إصدار الأحكام"], correct:2, justification:"المجال النفسحركي يشمل الأهداف المتعلقة بجوانب النمو النفسية الحركية التي تتطلب تآزراً حسياً وحركياً كتعلم المهارات العلمية واليدوية."},
+      {type:"mcq", difficulty:"medium", text:"أيٌّ من التالي ليس من المستويات المعيارية للأهداف التعليمية وفق الكتاب؟", options:["اتساق الأهداف","شمول الأهداف واتساعها","تمويل الأهداف","صدق الأهداف"], correct:2, justification:"المستويات المعيارية للأهداف هي: الاتساق، الشمول والاتساع، الملاءمة، قابلية التحقق، الصدق، التحديد. 'تمويل الأهداف' ليس من هذه المستويات."},
+      {type:"mcq", difficulty:"medium", text:"مستوى 'التركيب' في تصنيف بلوم يعني:", options:["الفحص المدقق للمادة وتجزئتها","القدرة على إصدار حكم","القدرة على تجميع الأجزاء لتكوين كل متكامل ذي معنى أو تأليف شيء جديد","استخدام معلومات في موقف جديد"], correct:2, justification:"التركيب هو عكس التحليل ويعني القدرة على تجميع الأجزاء لتكوين كل متكامل ذي معنى أو تأليف شيء جديد من عناصر أو جزئيات."},
+      {type:"mcq", difficulty:"hard", text:"أيٌّ من الأفعال التالية يُصنّف تحت مستوى 'التحليل' في تصنيف بلوم؟", options:["يذكر — يعرف — يسمّي","يلخّص — يميّز — يستنتج","يبرهن — يقارن — يحلل — يجزّئ","يصمم — يركّب — يجمع"], correct:2, justification:"الأفعال المناسبة لمستوى التحليل هي: يبرهن على صحة، يقارن، يحلل، يفك، يجزّئ. أما الأولى فللتذكر، والثانية للفهم، والرابعة للتركيب."},
+      {type:"mcq", difficulty:"hard", text:"إذا صاغ معلم هدفاً يقول: 'أن يكتب الطالب موضوعاً عن تلوث البيئة بأسلوبه الخاص بدون أخطاء إملائية' — فأيّ مستوى من مستويات بلوم المعرفية يُمثّله هذا الهدف؟", options:["التذكر","الفهم","التطبيق","التركيب"], correct:3, justification:"كتابة موضوع تعبيري بأسلوب الطالب الخاص يمثل مستوى التركيب في تصنيف بلوم لأنه ينطوي على إنتاج فكري ابتكاري."},
+      {type:"mcq", difficulty:"hard", text:"الأهداف الوجدانية تُصنّف في الغالب ضمن الأهداف:", options:["قريبة المدى","بعيدة المدى","اللحظية","المرحلية"], correct:1, justification:"الأهداف الوجدانية مثال على الأهداف بعيدة المدى، إذ إن تنمية الاتجاهات والقيم لا يمكن أن تحدث في موقف أو عدة مواقف محدودة بل يحتاج إلى وقت طويل نسبياً."},
+      {type:"mcq", difficulty:"easy", text:"ما المستوى الأول في تصنيف بلوم للمجال النفسحركي؟", options:["الممارسة","الأداء بدقة","التقليد/المحاكاة","الأداء المميز"], correct:2, justification:"المستوى الأول في المجال النفسحركي هو التقليد/المحاكاة ويشمل قدرة المتعلم على محاكاة الحركات والأداءات كما يفعلها المعلم."},
+      {type:"mcq", difficulty:"medium", text:"ما الشرط الذي يُحقق 'ملاءمة' الأهداف التعليمية؟", options:["أن تعكس أبعاد المواقف التعليمية","أن تشمل جميع جوانب نمو المتعلم","أن تكون مناسبة للمتعلمين بحسب مستوياتهم النمائية وتراعي الفروق الفردية","أن تكون محددة وواضحة ودقيقة"], correct:2, justification:"ملاءمة الأهداف تعني أن تكون مناسبة للمتعلمين بحسب مستوياتهم النمائية، وتتلاءم مع الزمن المتاح، وتراعي الفروق الفردية."},
+      // T/F
+      {type:"tf", difficulty:"easy", text:"تُصاغ الأهداف السلوكية على أساس: أن + فعل سلوكي + المتعلم + الخبرة + المعيار.", correct:true, justification:"هذه هي المعادلة الصحيحة لصياغة الهدف السلوكي الإجرائي وفق الكتاب."},
+      {type:"tf", difficulty:"easy", text:"فعل 'يعتقد' يُعدّ فعلاً سلوكياً مناسباً لصياغة الأهداف الإجرائية.", correct:false, justification:"'يعتقد' من الأفعال غير السلوكية التي لا تظهر مباشرة في سلوك المتعلم فيصعب قياسها. يجب استخدام أفعال قابلة للملاحظة كيذكر، يكتب، يحل."},
+      {type:"tf", difficulty:"easy", text:"التذكر هو أعلى مستويات المجال المعرفي في تصنيف بلوم.", correct:false, justification:"التذكر هو أدنى مستويات المجال المعرفي وليس أعلاها. أعلى المستويات هو التقويم."},
+      {type:"tf", difficulty:"medium", text:"الأهداف التعليمية تركز على سلوك المتعلم وليس سلوك المعلم.", correct:true, justification:"الأهداف السلوكية تركز على سلوك المتعلم أكثر من تركيزها على سلوك المعلم، وتحدد مستوى الأداء في سلوك المتعلم."},
+      {type:"tf", difficulty:"medium", text:"مستوى 'الاستقبال' هو أعلى مستويات المجال الوجداني في تصنيف كراثول.", correct:false, justification:"الاستقبال هو أقل مستويات نواتج التعلم الوجدانية. أعلى المستويات هو التمييز بنظام قيمي مركب (Characterization)."},
+      {type:"tf", difficulty:"medium", text:"الأهداف السلوكية يجب أن تتضمن ناتجاً تعليمياً واحداً فقط لكل هدف.", correct:true, justification:"من مزايا الأهداف السلوكية أنها لا تصف أكثر من ناتج تعليمي واحد، وتعتمد على أفعال سلوكية محددة كل منها ينطوي على ناتج تعلم واحد."},
+      {type:"tf", difficulty:"hard", text:"الهدف البعيد المدى مثل 'إعداد المتعلم لمهارات التفكير العلمي' يمكن تحقيقه في نشاط يومي واحد.", correct:false, justification:"من غير المنطقي وضع هدف بعيد المدى كإعداد المتعلم لمهارات التفكير العلمي في نشاط يومي واحد، إذ يحتاج إلى وقت طويل وأنشطة عديدة ومواقف تعليمية متنوعة."},
+      {type:"tf", difficulty:"hard", text:"التركيب في تصنيف بلوم يعني تجميع الأجزاء لتكوين كل متكامل أو تأليف شيء جديد.", correct:true, justification:"التركيب (Synthesis) هو القدرة على تجميع الأجزاء لتكوين كل متكامل ذي معنى أو تأليف شيء جديد من عناصر أو جزئيات، وهو عكس التحليل."},
+      {type:"tf", difficulty:"easy", text:"المجال النفسحركي يشمل المهارات العقلية والمعرفية فقط.", correct:false, justification:"المجال النفسحركي يشمل الأهداف المتعلقة بجوانب النمو النفسية الحركية التي تتطلب تآزراً حسياً وحركياً كالمهارات العملية واليدوية، وليس المهارات العقلية."},
+      {type:"tf", difficulty:"medium", text:"الأهداف التعليمية يجب أن تتساير مع المستويات العالمية.", correct:true, justification:"من شروط الشمول والاتساع في الأهداف التعليمية أن تساير المستويات العالمية."},
+      {type:"tf", difficulty:"medium", text:"الأداء الطبيعي (Naturalization) هو أدنى مستويات المجال النفسحركي.", correct:false, justification:"الأداء الطبيعي هو أعلى مستويات المجال النفسحركي وليس أدناها. أدناها هو التقليد/المحاكاة."},
+      {type:"tf", difficulty:"hard", text:"الأهداف الوجدانية من أمثلة الأهداف قريبة المدى التي يمكن تحقيقها في موقف تعليمي واحد.", correct:false, justification:"الأهداف الوجدانية مثال على الأهداف بعيدة المدى لأن تنمية الاتجاهات والقيم تحتاج وقتاً طويلاً نسبياً."},
+      {type:"tf", difficulty:"hard", text:"الهدف الذي يقول: 'أن يستخدم المتعلم الترمومتر المئوي في قياس درجات حرارة المواد المختلفة بدقة' يُمثّل مستوى التطبيق في تصنيف بلوم.", correct:true, justification:"استخدام أداة لتطبيق مهارة في موقف عملي يمثل مستوى التطبيق في تصنيف بلوم."},
+      {type:"tf", difficulty:"easy", text:"الهدف يُعرّف بأنه تغيير مرغوب إحداثه في سلوك فرد ما.", correct:true, justification:"الهدف يُعرّف بأنه تغيير مرغوب إحداثه في سلوك فرد ما، وهو تعبير عن رغبات وتوقعات المخططين لأي عمل."},
+      {type:"tf", difficulty:"medium", text:"الصدق في الأهداف التعليمية يعني أن تكون واضحة ودقيقة ومرنة.", correct:false, justification:"الوضوح والدقة والمرونة هي شروط 'التحديد' في الأهداف. أما 'الصدق' فيعني أن تعكس أبعاد المواقف التعليمية وتدعم الهوية الثقافية والقيم."},
+      {type:"tf", difficulty:"hard", text:"يُعدّ الهدف السلوكي ناجحاً إذا وصف أكثر من ناتج تعليمي في جملة واحدة.", correct:false, justification:"من شروط الأهداف السلوكية ألا تصف أكثر من ناتج تعليمي واحد؛ الهدف الذي يصف نواتج متعددة يُعدّ غير محدد."},
+      {type:"tf", difficulty:"hard", text:"الهدف الإجرائي يجب أن يتضمن ثلاثة عناصر: السلوك والمعيار والظروف.", correct:true, justification:"الهدف السلوكي الإجرائي يجب أن تتوفر فيه ثلاثة عناصر أساسية هي: السلوك – المعيار – الظروف."},
+      {type:"tf", difficulty:"easy", text:"تصنيف بلوم يُقسّم الأهداف التعليمية إلى ثلاثة مجالات: معرفي ووجداني ونفسحركي.", correct:true, justification:"يصنف بلوم وزملاؤه الأهداف التعليمية إلى ثلاثة مجالات رئيسة: المجال المعرفي، المجال الوجداني، المجال النفسحركي."},
+      {type:"tf", difficulty:"medium", text:"مستوى 'الممارسة' في المجال النفسحركي يُطلق عليه أيضاً 'التناول'.", correct:true, justification:"يُطلق على مستوى الممارسة أيضاً 'التناول'، ويشمل قدرة المتعلم على أداء الحركات والأنشطة العملية وفق توجيهات تحت إشراف المعلم."},
+      {type:"tf", difficulty:"hard", text:"ملاءمة الأهداف التعليمية تعني أن تكون الأهداف موحدة لجميع المتعلمين بغض النظر عن مستوياتهم.", correct:false, justification:"ملاءمة الأهداف تعني أن تكون مناسبة للمتعلمين بحسب مستوياتهم النمائية، وتراعي الفروق الفردية بين المتعلمين — أي عكس التوحيد."},
+      {type:"tf", difficulty:"medium", text:"الأهداف المعرفية في مستويات التذكر والفهم تُصنّف ضمن الأهداف قريبة المدى.", correct:true, justification:"الأهداف المعرفية خصوصاً في مستويات التذكر والفهم تُعدّ من الأهداف قريبة المدى لأنه يمكن اكتساب معلومات كثيرة خلال موقف تعليمي واحد أو عدة مواقف."}
+    ]
+  },
+  {
+    name: "الفصل الثالث: بيئة التعليم والتعلم",
+    color: "#10B981",
+    emoji: "🏫",
+    questions: [
+      // MCQ
+      {type:"mcq", difficulty:"easy", text:"ما تعريف إدارة البيئة التعليمية وفق الكتاب؟", options:["ما يقوم به المعلم من سلوكيات لفظية وعملية مباشرة أو غير مباشرة لتحقيق الأهداف التعليمية","ترتيب المقاعد فقط","الجدول الزمني للمعلم","وضع قواعد السلوك"], correct:0, justification:"إدارة البيئة التعليمية هي ما يقوم به المعلم داخل غرفة الصف من سلوكيات سواء كانت لفظية أو عملية مباشرة أو غير مباشرة بحيث تعمل على تحقيق الأهداف التعليمية والتربوية."},
+      {type:"mcq", difficulty:"easy", text:"ما أول محاور إدارة البيئة الصفية وفق الكتاب؟", options:["توفير المناخ العاطفي","تنظيم البيئة الفيزيقية المادية","حفظ النظام وبناء القواعد","إدارة سلوك الطفل"], correct:1, justification:"أول محاور إدارة البيئة الصفية هو تنظيم البيئة الفيزيقية المادية، تليها حفظ النظام وبناء القواعد، ثم توفير المناخ العاطفي والاجتماعي."},
+      {type:"mcq", difficulty:"easy", text:"أيٌّ من التالي يُعدّ من استراتيجيات التعليم والتعلم المذكورة في الكتاب؟", options:["التعليم الفردي والتعليم بالاكتشاف والتعليم بالحوار والمناقشة","التعليم التقليدي الإلقائي فقط","الاختبارات والتقييم","التدريب الميداني فقط"], correct:0, justification:"من استراتيجيات التعليم والتعلم المذكورة: التعليم المباشر، التعليم بالاكتشاف، بالحوار والمناقشة، باستخدام الوسائل السمعية والبصرية، الابتكاري، الفردي، بالفريق."},
+      {type:"mcq", difficulty:"easy", text:"كم محوراً تشتمل عليه إدارة البيئة الصفية وفق الكتاب؟", options:["ثلاثة محاور","أربعة محاور","خمسة محاور","ستة محاور"], correct:3, justification:"إدارة البيئة الصفية تشمل ستة محاور: تنظيم البيئة الفيزيقية، حفظ النظام والقواعد، توفير المناخ العاطفي، إدارة الخبرات التعليمية، إدارة سلوك الطفل، إدارة الوقت."},
+      {type:"mcq", difficulty:"medium", text:"لماذا يُنصح باستخدام سجاد ذي لون سادة في الفصول الخاصة؟", options:["لأنه أرخص تكلفةً","لامتصاص الأصوات والتشويش","لجعل الفصل أكثر جمالاً","لتسهيل حركة الأطفال"], correct:1, justification:"يُنصح باستخدام سجاد ذي لون سادة لامتصاص الأصوات والتشويش في الفصول الخاصة، وهو أحد إجراءات تنظيم البيئة الفيزيقية."},
+      {type:"mcq", difficulty:"medium", text:"ما أسلوب التعليم الذي يتضمن تعزيز الخطوات الفرعية التي تقترب تدريجياً من السلوك النهائي؟", options:["أسلوب تحليل المهمات","أسلوب الحث","أسلوب تشكيل السلوك","أسلوب النمذجة"], correct:2, justification:"أسلوب تشكيل السلوك هو الإجراء الذي يعمل على تحليل السلوك إلى عدد من المهارات الفرعية وتعزيزها حتى يتحقق السلوك النهائي."},
+      {type:"mcq", difficulty:"medium", text:"ما الفرق بين أسلوب 'تشكيل السلوك' وأسلوب 'تسلسل السلوك'؟", options:["لا فرق بينهما","تشكيل السلوك يتعامل مع سلوك واحد يمكن تحليله، أما تسلسل السلوك فيتعامل مع عدد من حلقات السلوك المترابطة","تسلسل السلوك أسهل من تشكيله","تشكيل السلوك للمعاقين عقلياً فقط"], correct:1, justification:"الفرق هو أن تشكيل السلوك يتعامل مع سلوك واحد يمكن تحليله إلى مهمات فرعية، في حين أسلوب تسلسل السلوك يتعامل مع عدد من حلقات السلوك المترابطة لتشكل معاً سلوكاً عاماً."},
+      {type:"mcq", difficulty:"medium", text:"ما أنواع الحث (Prompting) الثلاثة المذكورة في الكتاب؟", options:["الحث اللفظي، الحث البصري، الحث السمعي","الحث اللفظي، الحث الإيحائي، الحث الجسمي","الحث الفردي، الحث الجماعي، الحث الذاتي","الحث المباشر، الحث غير المباشر، الحث الإلكتروني"], correct:1, justification:"أنواع الحث الثلاثة المذكورة في الكتاب هي: الحث اللفظي، الحث الإيحائي، الحث الجسمي."},
+      {type:"mcq", difficulty:"hard", text:"ما المبدأ الأساسي الذي يرتكز عليه أسلوب النمذجة؟", options:["التكرار الممل حتى الاتقان","تعلم استجابات جديدة عن طريق ملاحظة الأنموذج أو تقليده","العقوبة الفورية على الأخطاء","التحليل المستمر للسلوك"], correct:1, justification:"النمذجة هي إجراء يتضمن تعلم استجابات جديدة عن طريق ملاحظة الأنموذج أو تقليده، وقد يحدث التعلم دون أن يظهر على الفرد استجابات متعلمة فورية."},
+      {type:"mcq", difficulty:"hard", text:"في إطار الصف العادي للمدمجين، من المسؤول عن ضمان ملاءمة بيئة الفصل لاحتياجات الطفل ذي الاحتياجات الخاصة؟", options:["المدير وحده","ولي الأمر","يتم التنسيق بين معلم التربية الخاصة ومعلم الفصل العادي","الطفل نفسه"], correct:2, justification:"عند دمج الطفل في الصف العادي، يجب التنسيق بين معلم التربية الخاصة ومعلم الفصل لضمان ملاءمة البيئة لاحتياجات الطفل."},
+      {type:"mcq", difficulty:"hard", text:"وفق الكتاب، ما المعيار الذي يُحدد اختيار أسلوب التدريس في التربية الخاصة؟", options:["رأي المعلم الشخصي فقط","طبيعة الأهداف والمادة التعليمية والمتعلمين وخصائص وخبرات المعلم","التكلفة المادية للأسلوب","تفضيل أولياء الأمور"], correct:1, justification:"هناك عوامل تؤثر على اختيار استراتيجية تعليمية دون غيرها وأهمها: طبيعة الأهداف والمادة التعليمية والمتعلمين وخصائص وخبرات واتجاهات المعلم الشخصية."},
+      {type:"mcq", difficulty:"easy", text:"التعزيز الإيجابي يُعرّف بأنه:", options:["العقاب على السلوك الخاطئ","كل الأحداث السارة التي تلي حدوث الاستجابة المرغوب فيها والتي تعمل على تكرار ظهورها","تجاهل السلوك السيء","إعطاء درجات عالية"], correct:1, justification:"التعزيز الإيجابي يمثل كل الأحداث السارة التي تلي حدوث الاستجابة المرغوب فيها والتي تعمل على تكرار ظهورها وتقويتها."},
+      {type:"mcq", difficulty:"easy", text:"ما أسوأ طرق تعديل السلوك وفق الكتاب؟", options:["التعزيز","أسلوب الحث","قرارات وإجراءات مندفعة وشخصية من المعلم","تسلسل السلوك"], correct:2, justification:"أسوأ طرق تعديل السلوك هي القرارات والإجراءات المندفعة والشخصية من المعلم، وفق ما ذكره الكتاب."},
+      {type:"mcq", difficulty:"medium", text:"ما المعززات التي تشمل الرسوم والمسرحيات ومشاهدة برامج تلفزيونية؟", options:["المعززات الغذائية","المعززات الأولية","المعززات النشاطية","المعززات الرمزية"], correct:2, justification:"المعززات النشاطية هي نشاطات معينة يحبها الطفل ويُسمح له بتأديتها فور تأديته السلوك المرغوب فيه، كالعزف على آلة موسيقية ومشاهدة البرامج التلفزيونية وغيرها."},
+      {type:"mcq", difficulty:"medium", text:"ما أهمية 'التهيئة للنشاط' كأول خطوة في إدارة الوقت؟", options:["ليس لها أهمية","توزيع زمن النشاط بما يشمل تهيئة الطفل وتحضيره للتعلم ثم عرض المفاهيم وتلخيصها وتقييمها","تقليل وقت الدرس","إعطاء المتعلمين وقت الراحة"], correct:1, justification:"إدارة الوقت تقتضي أن يوزع زمن النشاط ليشمل: التهيئة للنشاط، عرض مفاهيم النشاط، تلخيص ومراجعة النشاط، تقييم استيعاب الطفل."},
+      {type:"mcq", difficulty:"hard", text:"أسلوب 'تقليل المساعدة التدريجي' يُستخدم متى بالنسبة لتعلم المهارة؟", options:["في بداية تعلم المهارة","أثناء أول محاولة","بعد تعلم المهارة أو تحقيق السلوك النهائي حتى لا يعتمد المتعلم على المعلم","لا يُستخدم أبداً"], correct:2, justification:"من المناسب استخدام أسلوب تقليل المساعدة التدريجي بعد تعلم المهارة أو بعد تحقيق السلوك النهائي حتى لا يعتمد المتعلم على المعلم."},
+      {type:"mcq", difficulty:"hard", text:"ما الترتيب الصحيح لتقليل أنواع المساعدة تدريجياً وفق الكتاب؟", options:["الجسمي ثم الإيحائي ثم اللفظي","اللفظي ثم الجسمي ثم الإيحائي","اللفظي ثم الإيحائي ثم الجسمي","الإيحائي ثم اللفظي ثم الجسمي"], correct:2, justification:"من المناسب أن يبدأ المعلم بأسلوب تقليل المساعدة اللفظي ثم الإيحائي ثم الجسمي."},
+      {type:"mcq", difficulty:"hard", text:"ما الفرق الجوهري بين المعززات الأولية والمعززات الاجتماعية؟", options:["لا فرق","المعززات الأولية مرتبطة بالحاجات الأولية كالطعام والشراب، أما الاجتماعية فمتعلمة من المواقف الاجتماعية","المعززات الاجتماعية أفضل دائماً","المعززات الأولية أقوى في جميع الحالات"], correct:1, justification:"المعززات الأولية مرتبطة بالحاجات الأولية للإنسان كالطعام والشراب، أما المعززات الاجتماعية فهي المتعلمة من خلال المواقف الاجتماعية وتشمل اللفظية وغير اللفظية والرمزية."},
+      {type:"mcq", difficulty:"easy", text:"ما الاستراتيجية التي تعتمد على التدريس المباشر على مهارات محددة ضرورية لأداء مهمة معطاة؟", options:["نموذج تدريب العمليات","نموذج تدريب المهارات","أسلوب النمذجة","أسلوب الحث"], correct:1, justification:"نموذج تدريب المهارات يقصد به التدريس المباشر على مهارات محددة ضرورية لأداء مهمة معطاة."},
+      {type:"mcq", difficulty:"medium", text:"أيٌّ من الأمور التالية يُسهم في الاحتفاظ بانتباه الأطفال وفق الكتاب؟", options:["إغلاق النوافذ والأبواب","التأكد من وضوح التعليمات والمرور على المجموعات وتشجيع الأطفال","الصمت التام في الفصل","إعطاء واجبات كثيرة"], correct:1, justification:"من طرق الاحتفاظ بانتباه الأطفال: التأكد من وضوح التعليمات، والمرور على المجموعات، والتأكد من إكمال المهمة المطلوبة، وتشجيع الأطفال ومدحهم."},
+      // T/F
+      {type:"tf", difficulty:"easy", text:"من إجراءات تنظيم البيئة الصفية لذوي الاحتياجات الخاصة وضع الأركان الهادئة بعيداً عن الأركان الصاخبة.", correct:true, justification:"يُنصح بوضع الأركان الهادئة بعيداً عن الأركان الصاخبة عند تنظيم البيئة الصفية لذوي الاحتياجات الخاصة."},
+      {type:"tf", difficulty:"easy", text:"السلوك الإنساني سواء كان إيجابياً أو سلبياً هو فطري ولا يمكن تعديله.", correct:false, justification:"السلوك الإنساني سواء كان إيجابياً أو سلبياً هو متعلم وبالتالي فهو قابل للتعديل."},
+      {type:"tf", difficulty:"medium", text:"التعليم الفردي يعني بالضرورة تعليم طفل واحد في الوقت الواحد.", correct:false, justification:"التعليم الفردي لا يعني بالضرورة تعليم طفل واحد في الوقت الواحد، فهو قد يُنفَّذ ضمن مجموعات صغيرة أو بمساعدة الحاسوب أو بواسطة الرفاق."},
+      {type:"tf", difficulty:"medium", text:"أسلوب تحليل المهمات يعمل على تحليل المهمة التعليمية إلى عدد من مكوناتها أو خطواتها بطريقة منظمة متتابعة.", correct:true, justification:"أسلوب تحليل المهمات هو الأسلوب الذي تعمل فيه المعلمة على تحليل المهمة التعليمية إلى عدد من مكوناتها أو خطواتها بطريقة منظمة متتابعة."},
+      {type:"tf", difficulty:"medium", text:"التعزيز الغذائي يُوصى باستخدامه مع جميع الأطفال دون استثناء.", correct:false, justification:"أبدى كثير من المتخصصين اعتراضات على استخدام المواد الغذائية في التعزيز لأنها قد تولّد عادات طويلة الأمد. وهي مناسبة فقط للأطفال الصغار جداً أو في حالات خاصة."},
+      {type:"tf", difficulty:"hard", text:"أسلوب تسلسل السلوك يتعامل مع سلوك واحد يمكن تحليله إلى مهمات فرعية.", correct:false, justification:"هذا وصف أسلوب تشكيل السلوك. أما تسلسل السلوك فيتعامل مع عدد من حلقات السلوك المترابطة لتشكل معاً سلوكاً عاماً."},
+      {type:"tf", difficulty:"hard", text:"يُنصح المعلم ببدء تقليل المساعدة من النوع اللفظي ثم الإيحائي ثم الجسمي.", correct:true, justification:"من المناسب أيضاً للمعلم أن يبدأ بأسلوب تقليل المساعدة اللفظي ثم الإيحائي ثم الجسمي."},
+      {type:"tf", difficulty:"easy", text:"صياغة التعليمات الصفية يجب أن تكون بطريقة سلبية تحدد ما لا يُفعل فقط.", correct:false, justification:"يُنصح بصياغة التعليمات المدرسية والصفية بطريقة إيجابية بحيث تحدد أنماط السلوك المراد الالتزام بها."},
+      {type:"tf", difficulty:"medium", text:"المعزز الرمزي يشمل النقود والعلامات أو الدرجات أو النجوم.", correct:true, justification:"المعززات الرمزية تشمل النقود والعلامات أو الدرجات أو الفيش أو النجوم وغيرها."},
+      {type:"tf", difficulty:"hard", text:"نموذج تدريب العمليات يعتمد على الافتراض بأن المشكلات الأكاديمية والسلوكية تنجم عن اضطرابات داخلية لدى الطفل.", correct:true, justification:"نموذج تدريب العمليات يعتمد على افتراض مفاده أن المشكلات الأكاديمية والسلوكية تنجم عن اضطرابات داخلية لدى الطفل."},
+      {type:"tf", difficulty:"hard", text:"البيئة المدرسية الجذابة المنظمة تعكس توقعات عالية مما يؤثر على سلوك الطفل.", correct:true, justification:"تشير الدراسات إلى وجود علاقة قوية بين سلوك الطفل وترتيب المكان؛ فالبيئة المدرسية الجذابة والمنظمة تعكس توقعات عالية مما يؤثر على سلوك الطفل."},
+      {type:"tf", difficulty:"medium", text:"يجب على المعلمة تجنب الاسترسال والخروج والتشتت للحفاظ على وقت النشاط.", correct:true, justification:"يجب على المعلمة للحفاظ على وقت النشاط تجنب: الاسترسال والخروج والتشتت والانشغال."},
+      {type:"tf", difficulty:"easy", text:"المعلم في المنهج التشخيصي العلاجي يبدأ بـ: تقييم الطفل ثم التخطيط ثم التنفيذ ثم التقييم.", correct:true, justification:"المنحى التشخيصي العلاجي يتضمن: تقييم الطفل، التخطيط للتعليم، تنفيذ الخطة التعليمية، تقييم فاعلية العملية التعليمية."},
+      {type:"tf", difficulty:"medium", text:"المعززات الجماعية تشجع الأطفال على تحمل المسؤولية الجماعية والعمل كأعضاء في فريق.", correct:true, justification:"المعززات الجماعية تشجع الأطفال على تحمل المسؤولية الجماعية وأن يعملوا كأعضاء في فريق."},
+      {type:"tf", difficulty:"hard", text:"الصف الخاص للتوحد يحتاج نفس التنظيم الصفي الذي يُستخدم في فصول المعاقين عقلياً.", correct:false, justification:"التوحد يحتاج تنظيماً صفياً يعتمد أسلوب التعليم المنظم وهو يختلف عن فصول التلاميذ المعاقين عقلياً أو غيرها من الإعاقات."},
+      {type:"tf", difficulty:"hard", text:"التعليم الفردي يتضمن أساساً تحديد الأهداف طويلة المدى والأهداف قصيرة المدى على مستوى الطالب.", correct:true, justification:"التعليم الفردي يتضمن أساساً تحديد الأهداف طويلة المدى والأهداف قصيرة المدى على مستوى الطالب ثم اختيار الوسائل وتنفيذ الجلسات التعليمية بما يلبي الحاجات التعليمية الفردية."}
+    ]
+  },
+  {
+    name: "الفصل الرابع: الأنشطة التعليمية",
+    color: "#F59E0B",
+    emoji: "🎨",
+    questions: [
+      // MCQ
+      {type:"mcq", difficulty:"easy", text:"ما الركن الذي تُمثّله الأنشطة التعليمية في أركان المنهج؟", options:["الركن الأول","الركن الثاني","الركن الثالث","الركن الرابع"], correct:3, justification:"الأنشطة التعليمية تمثل الركن الرابع من أركان المنهج والمتمثلة بالأهداف والمحتوى والتقويم والأنشطة."},
+      {type:"mcq", difficulty:"easy", text:"ما الفرق بين 'أنشطة تعلم' و'أنشطة تعليمية'؟", options:["كلاهما نفس الشيء","أنشطة التعلم يقوم بها المتعلم لاكتساب خبراته، أما التعليمية فأعمال يقوم بها المعلم والمتعلم معاً لإضفاء المتعة وتيسير نقل الخبرات","أنشطة التعليم أقل أهمية","أنشطة التعلم خارج الفصل فقط"], correct:1, justification:"أنشطة التعلم هي متطلبات وأعمال يقوم بها المتعلم لاكتساب خبراته. أما الأنشطة التعليمية فأعمال يقوم بها المعلم والمتعلم معاً داخل أو خارج الفصل لإضفاء المتعة وتيسير نقل الخبرات."},
+      {type:"mcq", difficulty:"easy", text:"أيٌّ من التصنيفات التالية يُصنّف الأنشطة وفق مكان ممارستها؟", options:["صفية وغير صفية","استدلالية واستكشافية واستنتاجية","علمية ولغوية وفنية","تدريبية وترفيهية"], correct:0, justification:"يمكن تصنيف الأنشطة وفقاً لمكان ممارستها إلى أنشطة صفية (داخل قاعة النشاط) وأنشطة غير صفية (خارج قاعة النشاط)."},
+      {type:"mcq", difficulty:"easy", text:"ما السؤال الذي تجيب عليه الأنشطة التعليمية وفق الكتاب؟", options:["لماذا نعلم؟","ماذا نعلم؟","كيف نعلم وكيف نتعلم؟","متى نعلم؟"], correct:2, justification:"الأهداف تجيب عن 'لماذا نعلم؟' والأنشطة تجيب عن 'كيف نعلم؟ وكيف نتعلم؟'."},
+      {type:"mcq", difficulty:"medium", text:"ما الفرق بين الأنشطة العلاجية والأنشطة الإثرائية؟", options:["لا فرق","العلاجية للمتفوقين والإثرائية للضعاف","العلاجية للمتعلمين الذين ليس لديهم قدرات عالية (بمفاهيم أقل تعقيداً وزمن أطول)، والإثرائية لذوي القدرات العالية (بمهارات عقلية عليا وزمن أقصر)","العلاجية خارج الفصل والإثرائية داخله"], correct:2, justification:"الأنشطة العلاجية توضع للمتعلمين الذين ليس لديهم قدرات عالية (مفاهيم أقل تعقيداً، زمن أطول، خطوط عريضة واضحة). والإثرائية لذوي القدرات العالية (مهارات عقلية عليا، زمن أقصر، تتطلب عملاً مستقلاً أكثر)."},
+      {type:"mcq", difficulty:"medium", text:"أيٌّ من الوظائف التالية تُعدّ من 'الوظيفة الاجتماعية' للأنشطة التعليمية؟", options:["تنمية مهارات التفكير العلمي","تعميق الطابع الجماعي ومنح المتعلمين فرص العمل التعاوني وتكوين الصداقات","تحسين الدرجات الأكاديمية","تقليل وقت الدراسة"], correct:1, justification:"الوظيفة الاجتماعية للأنشطة: يغلب عليها الطابع الجماعي مما يتيح ممارسة العمل التعاوني وتكوين الصداقات وتعميق مبدأ الشورى في العمل وتقبل النقد."},
+      {type:"mcq", difficulty:"medium", text:"ما الهدف الرئيسي للنشاط الترفيهي؟", options:["تعليم مواد دراسية محددة","التدريب على مهارات محددة","إتاحة الفرصة للفرد كي ينطلق ويستمتع ويروح عن نفسه","التحضير للاختبارات"], correct:2, justification:"النشاط الترفيهي لا يستهدف تعليماً أو تثقيفاً أو تدريباً بشكل مباشر، بل يركز على إتاحة الفرصة للفرد كي ينطلق ويستمتع ويروح عن نفسه."},
+      {type:"mcq", difficulty:"medium", text:"ما عناصر خطوات إعداد النشاط التعليمي وفق الكتاب؟", options:["نوع النشاط، اسم النشاط، الأهداف، الزمن، المكان، التقنيات، الأسلوب، الطريقة، التعزيز، التطبيق","نوع النشاط والزمن فقط","الأهداف والوسائل والتقييم فقط","الأهداف والطريقة فقط"], correct:0, justification:"خطوات إعداد النشاط تشمل: نوع النشاط، اسم النشاط، الأهداف الإجرائية، زمن النشاط، مكان النشاط، التقنيات التربوية، الأسلوب المستخدم، طريقة الأداء والتنفيذ، التعزيز، التطبيق التربوي."},
+      {type:"mcq", difficulty:"hard", text:"ما العلاقة بين الأنشطة التعليمية والوسائل التعليمية كمكونين في منظومة المنهج؟", options:["لا علاقة بينهما","الأنشطة تستغني عن الوسائل","كلاهما مكونان في المنهج يؤثر ويتأثر ببقية المكونات، والأنشطة قد تكون في شكل وسائل وقد تحتاج إلى وسائل لتنفيذها","الوسائل أهم من الأنشطة"], correct:2, justification:"الأنشطة التعليمية والوسائل التعليمية كلاهما من مكونات منظومة المنهج، وقد تكون الأنشطة في شكل وسائل تعليمية، وقد تحتاج الأنشطة لتنفيذها استخدام بعض الوسائل التعليمية."},
+      {type:"mcq", difficulty:"hard", text:"وفق المستويات المعيارية للأنشطة التعليمية، ما الشرط المتعلق بـ'بيئة التعلم'؟", options:["أن تكون البيئة هادئة تماماً","أن توفر بيئة التعلم مناخاً آمناً لجميع الأطفال يسوده العدل والاحترام والتعزيز","أن تكون مكيّفة الهواء","أن تكون البيئة منفصلة عن المجتمع"], correct:1, justification:"من المستويات المعيارية للأنشطة: أن تتطلب الأنشطة تصميم وإدارة بيئة تعلم فعالة توفر مناخاً آمناً لجميع الأطفال يسوده العدل والاحترام والتعزيز."},
+      {type:"mcq", difficulty:"hard", text:"وفق الكتاب، ما الذي يميز النشاط الاستكشافي عن النشاط الاستدلالي؟", options:["لا فرق","النشاط الاستكشافي يستهدف تدريب المتعلم على استكشاف المعلومات بنفسه والوصول إلى كشوف جديدة، بينما الاستدلالي يستهدف تجميع حقائق جزئية للوصول إلى مبادئ عامة","النشاط الاستدلالي أصعب","النشاط الاستكشافي للمعاقين فقط"], correct:1, justification:"النشاط الاستكشافي يستهدف تدريب المتعلم على استكشاف المعلومات بنفسه واستقصاء أفكار ومشكلات لاكتشاف خبرات جديدة. أما الاستدلالي فيستهدف تجميع حقائق جزئية واستقرائها للوصول إلى مبادئ عامة."},
+      {type:"mcq", difficulty:"easy", text:"ما الأنشطة التي تتمثل في الصحافة المدرسية والمكتبة والإذاعة المدرسية؟", options:["الأنشطة العلمية","الأنشطة الرياضية","الأنشطة الثقافية","الأنشطة الفنية"], correct:2, justification:"الأنشطة الثقافية تشمل الصحافة المدرسية، المكتبة، الإذاعة المدرسية، التصوير الضوئي، تحسين الخطوط وأنشطة أخرى ذات طابع ثقافي."},
+      {type:"mcq", difficulty:"easy", text:"ما المقصود بـ 'أنشطة التعلم'؟", options:["ما يقوم به المعلم والمتعلم معاً","متطلبات وأعمال يقوم بها المتعلم لمساعدته في اكتساب وتنمية خبراته","الأنشطة الخارجة عن المنهج","الرحلات المدرسية فقط"], correct:1, justification:"أنشطة التعلم هي متطلبات وأعمال يقوم بها المتعلم لتساعده في اكتساب وتنمية خبراته، وهي أكثر من مجرد ملاحظة واستماع المعلم."},
+      {type:"mcq", difficulty:"medium", text:"ما دور المعلم في مرحلة تنفيذ النشاط التعليمي وفق الكتاب؟", options:["إلقاء المعلومات فقط","التخطيط والتنظيم والإشراف على العملية التعليمية مع توجيه المتعلمين عند الحاجة","توزيع الامتحانات","حضور الندوات فقط"], correct:1, justification:"دور المعلم في عصر التعليم الحديث أصبح يتعلق بالتخطيط والتنظيم والإشراف على العملية التعليمية، وتوجيه المتعلمين عند الحاجة دون التدخل الكبير."},
+      {type:"mcq", difficulty:"medium", text:"ما القاعدة التي تنص على عدم ازدحام الموقف التعليمي بكثير من الأنشطة؟", options:["قاعدة ما قبل التنفيذ","قاعدة بعد التنفيذ","من قواعد عند التنفيذ: عدم ازدحام الموقف التعليمي بعدد كبير من الأنشطة","ليست من القواعد"], correct:2, justification:"من قواعد تنفيذ الأنشطة التعليمية عند التنفيذ: عدم ازدحام الموقف التعليمي بعدد كبير من الأنشطة، وعدم الضغط على المتعلم كي يمارس النشاط قهراً."},
+      {type:"mcq", difficulty:"hard", text:"ما الوظيفة النفسية للأنشطة التعليمية وفق الكتاب؟", options:["تقليل تكاليف التعليم","إثارة الدافعية وقتل الملل والروتين مما يساعد على التفاعل الإيجابي مع المعلم والمتعلمين","فصل الأطفال عن بعضهم","تنظيم الجداول الدراسية"], correct:1, justification:"الوظيفة النفسية للأنشطة التعليمية: إثارة الدافعية وقتل الملل والروتين في حياة المتعلم مما يساعد كثيراً على التفاعل الإيجابي مع المعلم والمتعلمين."},
+      {type:"mcq", difficulty:"hard", text:"أيٌّ من الاعتبارات التالية يشكّل أساساً لتصنيف الأنشطة وفق الحواس المستخدمة؟", options:["أنشطة صفية وغير صفية","أنشطة علمية ورياضية وفنية","أنشطة سمعية وبصرية وحركية","أنشطة استدلالية واستكشافية"], correct:2, justification:"يمكن تصنيف الأنشطة على أساس الحواس التي تستخدمها إلى: سمعية (استماع لتسجيل صوتي)، بصرية (مشاهدة عرض لصور)، حركية (عمل نماذج وإجراء تجارب)."},
+      {type:"mcq", difficulty:"hard", text:"ما المحاور الأربعة لدور المعلم في عصر الإنترنت عن بُعد وفق الكتاب؟", options:["التدريس والتقييم والإدارة والتواصل","تصميم التعليم، توظيف التقنيات، تشجيع تفاعل المتعلمين، تطوير التعلم الذاتي","التخطيط والتنفيذ والتقييم والمتابعة","الإدارة والانضباط والتقييم والتدريس"], correct:1, justification:"دور المعلم في عصر الإنترنت عن بُعد مرتبط بأربعة مجالات: تصميم التعليم، توظيف التقنيات، تشجيع تفاعل المتعلمين، تطوير التعلم الذاتي."},
+      {type:"mcq", difficulty:"easy", text:"ما الأنشطة التي تشمل المشاركة في مسابقات الرسم والنحت والتصوير والتمثيل؟", options:["الأنشطة العلمية","الأنشطة الفنية","الأنشطة الاجتماعية","الأنشطة الثقافية"], correct:1, justification:"الأنشطة الفنية هي التي تتمثل في النشاط الموسيقي والتربية الفنية والمسرح والفنون الشعبية وتشمل المشاركة في مسابقات الرسم والنحت والتصوير والغناء والتمثيل."},
+      {type:"mcq", difficulty:"medium", text:"ما الذي تسعى إليه الأنشطة الاجتماعية للمتعلم؟", options:["تحسين درجاته الأكاديمية","تحقيق التكيف الاجتماعي واكتساب القيم والاتجاهات وأنماط السلوك المرغوبة","تعليم المهارات الرياضية","تنمية الإبداع الفني"], correct:1, justification:"الأنشطة الاجتماعية تتيح للمتعلم فرص التكيف الاجتماعي بما يكسبه من القيم والاتجاهات وأنماط السلوك المرغوبة بحيث تكون له القدرة على العمل والتكيف مع البيئة الاجتماعية."},
+      // T/F
+      {type:"tf", difficulty:"easy", text:"الأنشطة التعليمية تُمثّل الركن الرابع من أركان المنهج.", correct:true, justification:"الأنشطة التعليمية تمثل الركن الرابع من أركان المنهج المتمثلة بالأهداف والمحتوى والتقويم."},
+      {type:"tf", difficulty:"easy", text:"الأنشطة الصفية هي الأنشطة التي تتم خارج جدران القاعة.", correct:false, justification:"الأنشطة الصفية هي التي تتم بصورة نظامية داخل قاعات النشاط. أما التي تتم خارجها فتُسمى الأنشطة غير الصفية (اللاصفية)."},
+      {type:"tf", difficulty:"medium", text:"النشاط الاستنتاجي عكس النشاط الاستدلالي.", correct:true, justification:"النشاط الاستنتاجي يستهدف تدريب المتعلم على استنتاج الأفكار والمعلومات الجزئية وتفسيرها في ضوء مبادئ عامة، وهذا عكس الأنشطة الاستدلالية."},
+      {type:"tf", difficulty:"medium", text:"النشاط الترفيهي لا يحتوي على أي هدف تعليمي حتى الضمني منه.", correct:false, justification:"معظم الأنشطة الترفيهية بل جميعها ينطوي على هدف تعليمي أو تثقيفي أو تدريبي غير معلن أو غير مقصود."},
+      {type:"tf", difficulty:"medium", text:"تقييم الأنشطة بعد التنفيذ يشمل تحديد الأنشطة الأكثر تفضيلاً لدى المتعلمين.", correct:true, justification:"من قواعد بعد التنفيذ: تقويم الأنشطة للتعرف على مدى فاعليتها، وتحديد الأنشطة الأكثر تفضيلاً لدى المتعلمين."},
+      {type:"tf", difficulty:"hard", text:"يُوصى بأن يشمل النشاط التعليمي الجيد ارتباطاً وثيقاً بين النشاط والأهداف التعليمية الأساسية.", correct:true, justification:"من العناصر الأساسية للنشاط التعليمي: الارتباط الوثيق بين النشاط والأهداف التعليمية الأساسية."},
+      {type:"tf", difficulty:"hard", text:"الأنشطة الإثرائية تتسم بمفاهيم أقل تعقيداً وزمن أطول وخطوط عريضة واضحة.", correct:false, justification:"هذه صفات الأنشطة العلاجية. الأنشطة الإثرائية تتسم بمفاهيم أكثر تعقيداً (المهارات العقلية العليا) وزمن أقصر وتتطلب عملاً مستقلاً أكثر."},
+      {type:"tf", difficulty:"easy", text:"الأنشطة اللغوية تشمل تنمية مهارات التحدث والاستماع وإعداد القراءة والكتابة.", correct:true, justification:"الأنشطة اللغوية هي الأنشطة الصفية وغير الصفية التي تدعم تعلم الموضوعات اللغوية وتنمية مهارات التحدث والاستماع وإعداد القراءة والكتابة."},
+      {type:"tf", difficulty:"medium", text:"الأنشطة المعلمية هي خبرات واقعية محسوسة شائعة الاستخدام في مجال العلوم الطبيعية والتطبيقية.", correct:true, justification:"الأنشطة المعلمية هي خبرات واقعية محسوسة شائعة الاستخدام في مجال العلوم الطبيعية والتطبيقية."},
+      {type:"tf", difficulty:"hard", text:"من قواعد تنفيذ الأنشطة 'قبل التنفيذ': التأكد من إمكانية تنفيذ النشاط وتجهيز متطلباته وتهيئة أماكنه.", correct:true, justification:"من قواعد قبل التنفيذ: اختيار الأنشطة المناسبة للموقف التعليمي، والتأكد من إمكانية تنفيذها، وتجهيز متطلبات تنفيذها، وتهيئة أماكن تنفيذها."},
+      {type:"tf", difficulty:"hard", text:"الوظيفة التربوية للأنشطة اللاصفية هي مكملة للعملية التعليمية في تنمية المهارات والبحث العلمي والاعتماد على النفس.", correct:true, justification:"الوظيفة التربوية للأنشطة اللاصفية: تُعدّ مكملة للعملية التعليمية في تنمية المهارات المتعددة والبحث العلمي والاعتماد على النفس واكتشاف المواهب."},
+      {type:"tf", difficulty:"easy", text:"يقصد بـ'النشاط' الممارسة الصادقة لعمل من الأعمال.", correct:true, justification:"النشاط يعني: الممارسة الصادقة لعمل من الأعمال، وهو مصطلح عام يشير إلى أي عمل هادف يقوم به الفرد."},
+      {type:"tf", difficulty:"medium", text:"الأنشطة الاجتماعية تشمل الرحلات والزيارات الجمعية التعاونية والنظام والنظافة والصحة وحماية البيئة.", correct:true, justification:"الأنشطة الاجتماعية تشمل الأنشطة الجماعية والرحلات والزيارات الجمعية التعاونية والنظام والنظافة والصحة وحماية البيئة."},
+      {type:"tf", difficulty:"hard", text:"الأنشطة التعليمية تؤثر في منظومة المنهج ولكنها لا تتأثر بها.", correct:false, justification:"النشاط التعليمي هو عنصر من عناصر منظومة المنهج يؤثر ويتأثر بباقي مكونات تلك المنظومة."},
+      {type:"tf", difficulty:"hard", text:"تصنيف الأنشطة وفق الهدف منها يشمل: استدلالي، استكشافي، استنتاجي، تدريبي، لتنمية العمليات، لتنمية المهارات، لتنمية المعارف، لتنمية الميول والاتجاهات، ترفيهي.", correct:true, justification:"يشمل تصنيف الأنشطة وفق الهدف منها تسعة أنواع: الاستدلالي، الاستكشافي، الاستنتاجي، التدريبي، لتنمية العمليات، لتنمية المهارات، لتنمية المعارف، لتنمية الميول والاتجاهات، الترفيهي."}
+    ]
+  },
+  {
+    name: "الفصل الخامس: التقويم",
+    color: "#3B82F6",
+    emoji: "📊",
+    questions: [
+      // MCQ
+      {type:"mcq", difficulty:"easy", text:"ما معنى التقويم لغةً وفق الكتاب؟", options:["الاختبار والامتحان","التقدير فقط","التعديل والاستواء وبيان قيمة الشيء مع التعديل لما اعوج منه","القياس الرقمي"], correct:2, justification:"التقويم لغةً بمعنى التعديل والاستواء، ويتضمن معنى بيان قيمة الشيء مع التعديل لما اعوج منه، مستحضرين قول الخليفة عمر: 'من أرى منكم في اعوجاجاً فليقومه'."},
+      {type:"mcq", difficulty:"easy", text:"ما الفرق الجوهري بين التقويم والقياس؟", options:["لا فرق","القياس فقط رقمي، والتقويم يتضمن إصدار حكم على مدى تحقق الأهداف ويستخدم أدوات متعددة","القياس أشمل من التقويم","التقويم يسبق القياس دائماً"], correct:1, justification:"التقويم أشمل ميداناً وأوسع مجالاً من مفهوم القياس؛ فهو يستفيد من الاختبارات والقياس ومن الأدوات والأساليب الأخرى، ويستهدف إصدار حكم على مدى تحقيق الأهداف."},
+      {type:"mcq", difficulty:"easy", text:"ما التقويم الذي يجري في نهاية الفترة المحددة ويُستخدم للنقل أو منح الشهادة؟", options:["التقويم التكويني","التقويم النهائي","التقويم التشخيصي","التقويم الذاتي"], correct:1, justification:"التقويم النهائي (Summative evaluation) يجري في نهاية الفترة المحددة لكل تقويم تعليمي وتُستخدم نتائجه عادةً للنقل أو منح الشهادة أو لمقارنة المستويات."},
+      {type:"mcq", difficulty:"easy", text:"ما البورتفوليو (ملف الإنجاز) وفق الكتاب؟", options:["سجل الغياب والحضور","ملف أو حافظة تتضمن نماذج مما أنتجه الطفل تعبّر عن المهارات والأنشطة المرتبطة بمواقف التعلم","قائمة التحقق من الأهداف","الاختبارات التحصيلية فقط"], correct:1, justification:"البورتفوليو/ملف الإنجاز هو عبارة عن ملف أو حافظة تتضمن نماذج مما أنتجه الطفل من إنتاجات تعبّر عن المهارات والأنشطة المرتبطة بمواقف التعلم والخبرات التي مارسها في فترة معينة."},
+      {type:"mcq", difficulty:"medium", text:"ما الوظيفة الأولى من وظيفتي التقويم في العملية التعليمية؟", options:["الوظيفة الترفيهية","الوظيفة الاقتصادية","الوظيفة التعليمية (تحديد العوامل المؤدية للتقدم/التأخر، التوجيه والإرشاد، الكشف عن الحاجات)","الوظيفة الإدارية"], correct:2, justification:"يؤدي التقويم وظيفتين أساسيتين: الوظيفة التعليمية (تحديد عوامل التقدم والتأخر، التوجيه والإرشاد الأكاديمي، الكشف عن الحاجات والمشكلات)، والوظيفة التنظيمية."},
+      {type:"mcq", difficulty:"medium", text:"ما العناصر التي يقوم عليها التقويم وفق الكتاب؟", options:["الاختبار والدرجات فقط","التخطيط، الشمول، الاستمرار، الاعتراف بالفروق الفردية، الأساس العلمي","الملاحظة والتسجيل فقط","الاختبارات التحريرية والشفهية"], correct:1, justification:"يقوم التقويم على عدة عناصر: التخطيط أو تحديد الهدف، الشمول لنواحي متعددة، الاستمرار، الاعتراف بالفروق الفردية، الأساس العلمي (الصدق والثبات والموضوعية)."},
+      {type:"mcq", difficulty:"medium", text:"ما الأسلوب الذي يُصنّف ضمن 'أساليب التواصل الفردي' مع أسر أطفال التربية الخاصة؟", options:["الندوات الجماعية","الزيارات المنزلية (Home Visit)","اللوحات الإعلانية","الرسائل الدورية"], correct:1, justification:"من أساليب التواصل الفردي مع الأسر: المقابلة الشخصية والزيارات المنزلية (Home Visit)، بينما الندوات واللوحات والرسائل من أساليب التواصل الجماعي."},
+      {type:"mcq", difficulty:"medium", text:"ما الخاصية التي يعني 'الثبات' في التقويم؟", options:["قياس الشيء الذي وُضع التقويم لقياسه","أن يكون التقويم متسقاً مع نفسه وأن تعطي الوسيلة نتائج متكافئة عند استخدامها","عدم التأثر بالعوامل المزاجية","الشمول لجوانب متعددة"], correct:1, justification:"الثبات في التقويم يعني أن يكون متسقاً مع نفسه في أي جانب من الجوانب المراد تقويمها، وأن تعطي الوسيلة النتائج ذاتها إذا استُخدمت بصورة متكافئة."},
+      {type:"mcq", difficulty:"hard", text:"ما الشروط الستة للملاحظة التي يُنبّه إليها الكتاب عند تسجيل المعلمة للملاحظة؟", options:["الالتزام بالموضوعية، وصف السلوك بدقة، الاستمرارية، التسجيل الفوري، مقارنة النتائج بما سبق، تفريغ أدوات التسجيل وتحليلها","الاختبار والمراقبة والمقابلة والتحليل والتوثيق والتقرير","الدقة والسرعة والشمول والانتقائية والتكرار والتحليل","الهدف والأدوات والزمان والمكان والمتعلم والمعلم"], correct:0, justification:"شروط تسجيل الملاحظة الستة: الالتزام بالموضوعية وعدم التحيز، وصف السلوك المُلاحَظ بدقة وموضوعية مع توضيح الظروف، استمرارية ملاحظة مهارات الطفل، التسجيل الفوري، مقارنة نتائج السلوك الملاحَظ بما سبق، تفريغ أدوات التسجيل وتحليلها."},
+      {type:"mcq", difficulty:"hard", text:"ما دور التقويم في دعم التواصل مع أولياء الأمور؟", options:["لا علاقة بينهما","التقويم يكون أساس التواصل مع أولياء الأمور وتبادل المعلومات معهم حول تطور أداء الطفل","التقويم يُستخدم لمعاقبة الأطفال","التقويم يُستخدم فقط للترقية"], correct:1, justification:"التقويم يكون أساس التواصل مع أولياء الأمور وتبادل المعلومات معهم حول تطور الأداء، كما يساعد أولياء الأمور لمعرفة التطور في المعارف والمهارات لأبنائهم."},
+      {type:"mcq", difficulty:"hard", text:"ما الفرق بين التقويم والتقييم وفق الكتاب؟", options:["كلاهما نفس الشيء","التقويم يعبّر عن جمع وتحليل المعلومات على مدى زمني من الشواهد الملاحَظة، أما التقييم فيحتوي على حكم صادر مستنداً إلى تحليل وتفسير المعلمة لتطور الطفل","التقييم أشمل من التقويم","التقويم للمعلم والتقييم للطالب"], correct:1, justification:"التقويم يعبّر عن جمع وتحليل المعلومات على مدى زمني من خلال الشواهد التي يمكن ملاحظتها. أما التقييم فيحتوي على 'حكم' صادر مستنداً إلى تحليل وتفسير المعلمة لتطور الطفل بالنسبة إلى توقعات وأهداف التعلم."},
+      {type:"mcq", difficulty:"easy", text:"ما التقويم الذي يبدأ قبيل عملية التعلم ويستمر معها ويتمتع بوظائف تشخيصية وعلاجية؟", options:["التقويم النهائي","التقويم التكويني (Formative)","التقويم الذاتي","تقويم المناهج"], correct:1, justification:"التقويم التكويني (Formative evaluation) يبدأ قبيل عملية التعلم ويستمر معها وله وظائف تشخيصية وعلاجية."},
+      {type:"mcq", difficulty:"easy", text:"ما هدف 'الموضوعية' في التقويم؟", options:["زيادة سرعة التقويم","تحقيق الشمولية","عدم تأثر نتائج الاختبار بالعوامل المزاجية للمقيِّم","رفع درجات الطلاب"], correct:2, justification:"الموضوعية في التقويم تعني عدم تأثر نتائج الاختبار أو المقياس بالعوامل المزاجية للمقيِّم."},
+      {type:"mcq", difficulty:"medium", text:"من مجالات التقويم المذكورة في الكتاب: تقويم المتعلمين من حيث:", options:["نسبة حضورهم فقط","النمو المعرفي التحصيلي، اكتساب المعلومات والمهارات وطرق التفكير والاتجاهات، والتكيف الشخصي والاجتماعي","درجات الاختبارات النهائية فقط","السلوك الانضباطي فقط"], correct:1, justification:"تقويم المتعلمين يشمل: النمو المعرفي (التحصيلي)، اكتساب المعلومات والمهارات وطرق التفكير والاتجاهات والميول والقيم، والتكيف الشخصي والاجتماعي."},
+      {type:"mcq", difficulty:"medium", text:"ما الهدف الأساسي من تواصل أولياء الأمور مع مؤسسات ذوي الاحتياجات الخاصة؟", options:["تحصيل الرسوم الدراسية","تحسين أداء الأطفال وزيادة دعم المجتمع للعملية التربوية","وضع قواعد صارمة على الأطفال","توثيق الغياب"], correct:1, justification:"الأهداف المتوخاة من مشاركة أولياء الأمور هي: تحسين أداء الأطفال، وزيادة دعم المجتمع للعملية التربوية التعليمية."},
+      {type:"mcq", difficulty:"hard", text:"ما دور التقويم في مساعدة مخططي المناهج وفق الوظيفة التنظيمية؟", options:["لا دور له","الحكم على فاعلية التجارب التربوية قبل تطبيقها، واختبار صحة الفروض التي يُبنى المنهج على أساسها","توزيع الطلاب على الفصول","تحديد مواعيد الامتحانات"], correct:1, justification:"من الوظيفة التنظيمية للتقويم: الحكم على فاعلية التجارب التربوية قبل تطبيقها على مستوى المؤسسة، واختبار مدى صحة الفروض التي يُبنى المنهج على أساسها."},
+      {type:"mcq", difficulty:"hard", text:"ما 'الصدق' بوصفه معياراً من معايير التقويم؟", options:["أن يعطي التقويم نتائج متكافئة في المرات المختلفة","اختيار الوسيلة التي تقيس الشيء الذي وُضعت لتقويمه بحيث لا تتأثر النتيجة بعوامل أخرى","عدم التحيز للمقيِّم","الشمول لجوانب متعددة"], correct:1, justification:"الصدق في التقويم يعني اختيار الوسيلة التي تقيس الشيء الذي وُضعت لتقويمه بحيث لا تتأثر النتيجة بعوامل أخرى خلاف النواحي التي نريد تقويمها."},
+      {type:"mcq", difficulty:"hard", text:"وفق الكتاب، البورتفوليو في أبسط أشكاله يكون:", options:["قائمة اختبارات","ملف بلاستيكي جذاب مقسّم إلى أقسام حسب نوعية الأنشطة، يتضمن إنتاج الطفل موثَّقاً بالتاريخ","مجرد سجل حضور وغياب","ملف إلكتروني فقط"], correct:1, justification:"البورتفوليو في أبسط أشكاله: ملف بلاستيكي بألوان جذابة، مقسَّم إلى أقسام بحسب نوعية الأنشطة وعلاقتها بنواتج التعلم، مع وضع صورة الطفل، وتدوين التاريخ على المحتويات."},
+      {type:"mcq", difficulty:"easy", text:"ما طريقة التواصل التي تتيح للمربية التعرف على الأساليب التربوية في معاملة الطفل وتبرز الدوافع الدفينة؟", options:["الرسائل الإخبارية","اللوحات الإعلانية","المقابلة الشخصية","ندوات الوالدين"], correct:2, justification:"المقابلة الشخصية هي أنجح السبل في التواصل مع أولياء الأمور، إذ يمكن من خلالها التعرف على أساليبهم التربوية وإبراز الدوافع الدفينة التي يصعب التعرف عليها بوسائل الاتصال الأخرى."},
+      {type:"mcq", difficulty:"medium", text:"ما أهمية أن تكون التغذية الراجعة من المعلمة 'فورية'؟", options:["ليس لها أهمية","لأن المتعلم أكثر قابلية للتعلم عندما يكون الواجب أو المسألة لا يزالان حديثين في ذاكرته","لتوفير وقت المعلمة","لأن الدراسات تُثبت ذلك فقط"], correct:1, justification:"المتعلم أكثر قابلية للتعلم عندما يكون الواجب أو المسألة لا يزالان حديثين في ذاكرته، ومن ثَمَّ يستطيع ربط ملاحظات المعلمة بالأنشطة المعينة بطريقة أفضل."},
+      // T/F
+      {type:"tf", difficulty:"easy", text:"التقويم التكويني يجري فقط في نهاية الفصل الدراسي.", correct:false, justification:"التقويم التكويني يبدأ قبيل عملية التعلم ويستمر معها. أما التقويم الذي يجري في نهاية الفترة المحددة فهو التقويم النهائي."},
+      {type:"tf", difficulty:"easy", text:"التقويم لغةً يعني التعديل والاستواء وبيان قيمة الشيء.", correct:true, justification:"التقويم لغةً بمعنى التعديل والاستواء وتتنوع المعاني التي يشير لها هذا المفهوم، ويعني بيان قيمة الشيء مع التعديل لما اعوج منه."},
+      {type:"tf", difficulty:"medium", text:"البورتفوليو وسيلة لتقويم أداء الطفل في جوانبه المتعددة الفنية والأكاديمية.", correct:true, justification:"البورتفوليو وسيلة لتقويم أداء الطفل في جوانبه المتعددة الفنية والأكاديمية سواء الخبرات اللغوية والرياضية والعلمية وما ينجزه من رسوم وتلوين."},
+      {type:"tf", difficulty:"medium", text:"من أساليب التواصل الفردي مع أولياء الأمور: الاتصالات الهاتفية والزيارات المنزلية والمقابلات الشخصية.", correct:true, justification:"من أساليب التواصل الفردي مع الأسر: التفاعل الشخصي اليومي عند التوصيل والاستلام، والاتصالات الهاتفية، والمقابلات الشخصية، والزيارات المنزلية."},
+      {type:"tf", difficulty:"medium", text:"الثبات في التقويم يعني عدم تأثر النتائج بالعوامل المزاجية للمقيِّم.", correct:false, justification:"هذا تعريف 'الموضوعية' في التقويم. أما 'الثبات' فيعني أن يكون التقويم متسقاً مع نفسه وأن تعطي الوسيلة النتائج ذاتها إذا استُخدمت بصورة متكافئة."},
+      {type:"tf", difficulty:"hard", text:"التقويم أشمل ميداناً وأوسع مجالاً من مفهومي القياس والاختبارات.", correct:true, justification:"التقويم بالمعاني التي أوردها الكتاب أشمل ميداناً وأوسع مجالاً من مفهومي القياس والاختبارات، وبينما يتجه التقويم إلى التعامل مع ظواهر أوسع فإن الاختبارات والقياس غالباً يكونان محددَين بجوانب وأغراض أقل شمولية."},
+      {type:"tf", difficulty:"hard", text:"التقويم ينبغي أن يشمل الاتجاهات والميول وأنواع التفكير والتوافق الشخصي والاجتماعي لا الاقتصار على جانب واحد.", correct:true, justification:"من عناصر التقويم: الشمول لنواحي متعددة دون الاقتصار على جانب واحد كالاتجاهات والميول وأنواع التفكير والتوافق الشخصي الاجتماعي."},
+      {type:"tf", difficulty:"easy", text:"البورتفوليو يتضمن فقط الاختبارات التحريرية للطفل.", correct:false, justification:"البورتفوليو يتضمن نماذج مما أنتجه الطفل كالكتابات والرسوم وصور التكوين البنائي وتسجيلات الطفل وهو يروي قصة، وليس فقط الاختبارات التحريرية."},
+      {type:"tf", difficulty:"medium", text:"من وظائف التقويم التنظيمية: مساعدة أولياء الأمور لمعرفة التطور في المعارف والمهارات لأبنائهم وكيف يكون دورهم في التفاعل مع المؤسسة التعليمية.", correct:true, justification:"هذه من الوظائف التنظيمية للتقويم وفق الكتاب."},
+      {type:"tf", difficulty:"hard", text:"ملف الإنجاز (البورتفوليو) يجب أن يحتوي على أداة التقويم المستمر للطفل محدَّثة بشكل دوري.", correct:true, justification:"من محتويات البورتفوليو المثالي: أداة التقويم المستمر للطفل محدَّثة بشكل دوري، وأدوات أخرى استخدمتها المعلمة من قوائم تحقق وشواهد وأدلة وتسجيلات."},
+      {type:"tf", difficulty:"hard", text:"التقويم يساعد على تحديد أنسب الاستراتيجيات والمعينات اللازمة لتحقيق الأهداف المرجوة.", correct:true, justification:"التقويم يساعد على تحديد أنسب الاستراتيجيات والمعينات اللازمة لتحقيق الأهداف المرجوة، ومعرفة التطور في مستوى الأطفال، وتحديد مناطق التنمية المهنية."},
+      {type:"tf", difficulty:"easy", text:"ندوات أولياء الأمور تهدف إلى بناء علاقة وثيقة معهم وكسب ثقتهم والتعاون معهم لتحقيق الأهداف التربوية.", correct:true, justification:"تهدف ندوات أولياء الأمور إلى بناء علاقة وثيقة معهم وكسب ثقتهم والتعاون معهم لتحقيق أهداف المؤسسة التربوية."},
+      {type:"tf", difficulty:"medium", text:"التغذية الراجعة من المعلمة يجب أن تكون مقصورة على المعلومات السلبية فقط لتحسين أداء الطفل.", correct:false, justification:"ينبغي أن تكون التغذية الراجعة متكاملة تشمل المعلومات الإيجابية والسلبية، ولا تكون مقصورة على الملاحظات السلبية."},
+      {type:"tf", difficulty:"hard", text:"الاستمرار من عناصر التقويم ويعني أن يكون التقويم مستمراً ولا يقتصر على تقويم واحد.", correct:true, justification:"الاستمرار هو أحد عناصر التقويم ويعني أن يكون التقويم مستمراً في حياتنا العملية ولا يقتصر على تقويم واحد وينتهي الأمر."},
+      {type:"tf", difficulty:"hard", text:"التقويم النهائي يؤكد على الحاجة إلى التعاون بين المقوِّم والمطوِّر.", correct:true, justification:"من خصائص التقويم النهائي: يؤكد على الحاجة إلى التعاون بين المقوِّم والمطوِّر، ويفيد في مقارنة البرامج المتنافسة لأجل الأخذ بالصالح منها."}
+    ]
+  }
+];
+
+// ============================
+// QUIZ STATE
+// ============================
+let currentChapter = 0;
+let currentQ = 0;
+let correctCount = 0;
+let wrongCount = 0;
+let answered = false;
+
+function startQuiz(chIdx) {
+  currentChapter = chIdx;
+  currentQ = 0;
+  correctCount = 0;
+  wrongCount = 0;
+  answered = false;
+
+  document.getElementById('chapterSelect').style.display = 'none';
+  document.getElementById('resultsArea').style.display = 'none';
+  document.getElementById('quizArea').style.display = 'block';
+
+  const ch = CHAPTERS[chIdx];
+  document.getElementById('quizChapterTitle').textContent = ch.name;
+  document.getElementById('quizChapterTitle').style.color = ch.color;
+
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const ch = CHAPTERS[currentChapter];
+  const total = ch.questions.length;
+  const q = ch.questions[currentQ];
+
+  updateProgress();
+
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.style.display = 'none';
+  answered = false;
+
+  let html = `<div class="question-card">`;
+  html += `<div class="question-num">سؤال ${currentQ + 1} من ${total}</div>`;
+
+  const diffMap = {easy:'سهل', medium:'متوسط', hard:'صعب 🔥'};
+  const diffClass = {easy:'diff-easy', medium:'diff-medium', hard:'diff-hard'};
+  html += `<span class="difficulty-badge ${diffClass[q.difficulty]}">${diffMap[q.difficulty]}</span>`;
+  html += `<span class="q-type-badge ${q.type === 'mcq' ? 'badge-mcq' : 'badge-tf'}">${q.type === 'mcq' ? '🎯 اختيار من متعدد' : '✅ صواب وخطأ'}</span>`;
+
+  html += `<div class="question-text">${q.text}</div>`;
+
+  if (q.type === 'mcq') {
+    html += `<div class="options-grid">`;
+    const labels = ['أ', 'ب', 'ج', 'د'];
+    q.options.forEach((opt, i) => {
+      html += `<button class="option-btn" onclick="answerMCQ(${i})" id="opt-${i}">
+        <span class="option-label">${labels[i]}</span>
+        <span>${opt}</span>
+      </button>`;
+    });
+    html += `</div>`;
+  } else {
+    html += `<div class="tf-grid">
+      <button class="tf-btn true-btn" onclick="answerTF(true)" id="tf-true">
+        <span>✅</span><span>صواب</span>
+      </button>
+      <button class="tf-btn false-btn" onclick="answerTF(false)" id="tf-false">
+        <span>❌</span><span>خطأ</span>
+      </button>
+    </div>`;
+  }
+
+  html += `<div id="justBox"></div>`;
+  html += `</div>`;
+
+  document.getElementById('questionContainer').innerHTML = html;
+  document.getElementById('questionContainer').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function answerMCQ(idx) {
+  if (answered) return;
+  answered = true;
+  const q = CHAPTERS[currentChapter].questions[currentQ];
+  const isCorrect = idx === q.correct;
+
+  if (isCorrect) correctCount++; else wrongCount++;
+  updateScore();
+
+  // Highlight options
+  q.options.forEach((_, i) => {
+    const btn = document.getElementById(`opt-${i}`);
+    btn.classList.add('answered');
+    if (i === q.correct) btn.classList.add('correct');
+    else if (i === idx && !isCorrect) btn.classList.add('wrong');
+  });
+
+  showJustification(isCorrect, q.justification);
+  showNextBtn();
+}
+
+function answerTF(answer) {
+  if (answered) return;
+  answered = true;
+  const q = CHAPTERS[currentChapter].questions[currentQ];
+  const isCorrect = answer === q.correct;
+
+  if (isCorrect) correctCount++; else wrongCount++;
+  updateScore();
+
+  const trueBtn = document.getElementById('tf-true');
+  const falseBtn = document.getElementById('tf-false');
+  trueBtn.classList.add('answered');
+  falseBtn.classList.add('answered');
+
+  if (q.correct === true) {
+    trueBtn.classList.add('correct');
+    if (!isCorrect) falseBtn.classList.add('wrong');
+  } else {
+    falseBtn.classList.add('correct');
+    if (!isCorrect) trueBtn.classList.add('wrong');
+  }
+
+  showJustification(isCorrect, q.justification);
+  showNextBtn();
+}
+
+function showJustification(isCorrect, text) {
+  const box = document.getElementById('justBox');
+  box.innerHTML = `<div class="justification-box ${isCorrect ? 'just-correct' : 'just-wrong'}">
+    <div class="just-title">${isCorrect ? '🟢 إجابة صحيحة! 🎉' : '🔴 إجابة خاطئة!'} — 📖 التبرير الأكاديمي:</div>
+    <div class="just-text">${text}</div>
+  </div>`;
+}
+
+function showNextBtn() {
+  const ch = CHAPTERS[currentChapter];
+  const nextBtn = document.getElementById('nextBtn');
+  if (currentQ < ch.questions.length - 1) {
+    nextBtn.textContent = 'السؤال التالي ⟵';
+  } else {
+    nextBtn.textContent = '🏁 عرض النتيجة النهائية';
+  }
+  nextBtn.style.display = 'block';
+}
+
+function nextQuestion() {
+  const ch = CHAPTERS[currentChapter];
+  if (currentQ < ch.questions.length - 1) {
+    currentQ++;
+    renderQuestion();
+  } else {
+    showResults();
+  }
+}
+
+function updateProgress() {
+  const ch = CHAPTERS[currentChapter];
+  const total = ch.questions.length;
+  const pct = ((currentQ) / total) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressInfo').textContent = `${currentQ + 1} / ${total}`;
+}
+
+function updateScore() {
+  document.getElementById('scoreCorrect').textContent = `✅ ${correctCount}`;
+  document.getElementById('scoreWrong').textContent = `❌ ${wrongCount}`;
+}
+
+function showResults() {
+  document.getElementById('quizArea').style.display = 'none';
+  document.getElementById('resultsArea').style.display = 'block';
+
+  const total = CHAPTERS[currentChapter].questions.length;
+  const pct = Math.round((correctCount / total) * 100);
+
+  document.getElementById('finalCorrect').textContent = correctCount;
+  document.getElementById('finalWrong').textContent = wrongCount;
+  document.getElementById('resultsScore').textContent = `${pct}%`;
+  document.getElementById('resultsSubtitle').textContent = CHAPTERS[currentChapter].name;
+
+  let emoji, title, message;
+  if (pct >= 90) {
+    emoji = '🏆'; title = 'أحسنتِ يا نجمة! 🌟';
+    message = '🎉 أداء مذهل! أنتِ على أتم الاستعداد للامتحان! ثقي بنفسك وتوكلي على الله. هذه النتيجة تدل على إتقان حقيقي ومجهود رائع! 💪✨';
+  } else if (pct >= 75) {
+    emoji = '🎯'; title = 'رائعة جداً! 💫';
+    message = '✨ أداء ممتاز! مستواكِ جيد جداً، مع مراجعة بسيطة للأسئلة الخاطئة ستكوني في القمة! استمري واثقة 🌸';
+  } else if (pct >= 60) {
+    emoji = '📚'; title = 'جيد! استمري 💪';
+    message = '📖 عزيزتي، مستواكِ جيد ولكن يمكن تحسينه أكثر! راجعي الأسئلة التي أخطأتِ فيها واقرئي تبريراتها، الاجتهاد هو مفتاح النجاح 🌟';
+  } else {
+    emoji = '📖'; title = 'لا تحزني! 🌺';
+    message = '💝 الفشل أول خطوات النجاح! عودي للكتاب ومراجعة المادة، ثم حاولي مرة أخرى. أنتِ قادرة على ذلك بإذن الله! 🤲✨';
+  }
+
+  document.getElementById('resultsEmoji').textContent = emoji;
+  document.getElementById('resultsTitle').textContent = title;
+  document.getElementById('resultMessage').textContent = message;
+
+  document.getElementById('retryBtn').onclick = () => startQuiz(currentChapter);
+
+  launchBalloons();
+  document.getElementById('resultsArea').scrollIntoView({behavior:'smooth'});
+}
+
+function launchBalloons() {
+  const container = document.getElementById('balloonContainer');
+  container.innerHTML = '';
+  const balloons = ['🎈','🎉','⭐','🌟','🎁','🎊','✨','💫','🌺','🏆'];
+  for (let i = 0; i < 20; i++) {
+    setTimeout(() => {
+      const b = document.createElement('div');
+      b.className = 'balloon';
+      b.textContent = balloons[Math.floor(Math.random() * balloons.length)];
+      b.style.left = Math.random() * 100 + '%';
+      b.style.fontSize = (1.5 + Math.random() * 2) + 'rem';
+      const dur = 3 + Math.random() * 4;
+      b.style.animation = `riseUp ${dur}s linear forwards`;
+      container.appendChild(b);
+      setTimeout(() => b.remove(), dur * 1000);
+    }, i * 150);
+  }
+}
+
+function goHome() {
+  document.getElementById('quizArea').style.display = 'none';
+  document.getElementById('resultsArea').style.display = 'none';
+  document.getElementById('chapterSelect').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+</script>
+</body>
+</html>
